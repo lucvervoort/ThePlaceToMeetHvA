@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Reservation>
+@{
+    ViewData["Title"] = "Mijn reservaties";
+}
+
+<h2>@ViewData["Title"] </h2>
+
+<div class="row">
+    @if (Model.Count() == 0)
+    {
+        <p class="ml-4">Geen reservaties gevonden</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Zaal</th>
+                    <th scope="col">Dag</th>
+                    <th scope="col" class="text-right">Start</th>
+                    <th scope="col" class="text-right">Einde</th>
+                    <th scope="col">Catering</th>
+                    <th scope="col" class="text-right">Personen</th>
+                    <th scope="col" class="text-right">Totale kostprijs</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Vergaderruimte.Naam</td>
+                        <td>@item.Dag.ToShortDateString()</td>
+                        <td class="text-right">@item.BeginUur</td>
+                        <td class="text-right">@item.Tot</td>
+                        <td>@item.Catering?.Titel</td>
+                        <td class="text-right">@item.AantalPersonen</td>
+                        <td class="text-right">@($"{item.TotalePrijs:N2} €")</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+</div>

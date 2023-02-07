@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="meetingRooms">Salles de réunions</system:String>
+    <system:String x:Key="id">ID</system:String>
+    <system:String x:Key="name">Nom</system:String>
+    <system:String x:Key="meetingRoomType">Type de salle de réunion</system:String>
+    <system:String x:Key="maxNrOfPersons">Nombre maximum de personnes</system:String>
+    <system:String x:Key="pricePerHour">Prix ​​par heure</system:String>
+    <system:String x:Key="pricePerPersonDefaultCatering">Prix ​​par défaut Restauration</system:String>
+    <system:String x:Key="fetch">Aller chercher</system:String>
+    <system:String x:Key="yourMessage">Message:</system:String>
+    <system:String x:Key="yourUserName">Nom d'utilisateur</system:String>
+
+</ResourceDictionary>

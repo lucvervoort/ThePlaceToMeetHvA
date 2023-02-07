@@ -1,0 +1,515 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ThePlaceToMeet.WebApi",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Catering": {
+      "get": {
+        "tags": [
+          "Catering"
+        ],
+        "operationId": "Caterings",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Catering"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Catering/{id}": {
+      "get": {
+        "tags": [
+          "Catering"
+        ],
+        "operationId": "GetBy",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Catering"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Klant": {
+      "get": {
+        "tags": [
+          "Klant"
+        ],
+        "operationId": "Customers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Klant"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Klant"
+        ],
+        "operationId": "Add",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Klant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Klant/{email}": {
+      "get": {
+        "tags": [
+          "Klant"
+        ],
+        "operationId": "GetByEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Klant"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MeetingRoom": {
+      "get": {
+        "tags": [
+          "MeetingRoom"
+        ],
+        "operationId": "MeetingRooms",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vergaderruimte"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MeetingRoom/max/{maxAantalPersonen}": {
+      "get": {
+        "tags": [
+          "MeetingRoom"
+        ],
+        "operationId": "GetByMaxAantalPersonen",
+        "parameters": [
+          {
+            "name": "maxAantalPersonen",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Vergaderruimte"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MeetingRoom/{id}": {
+      "get": {
+        "tags": [
+          "MeetingRoom"
+        ],
+        "operationId": "GetById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vergaderruimte"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Catering": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "titel": {
+            "type": "string",
+            "nullable": true
+          },
+          "beschrijving": {
+            "type": "string",
+            "nullable": true
+          },
+          "prijsPerPersoon": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Klant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "naam": {
+            "type": "string",
+            "nullable": true
+          },
+          "voornaam": {
+            "type": "string",
+            "nullable": true
+          },
+          "gsm": {
+            "type": "string",
+            "nullable": true
+          },
+          "bedrijf": {
+            "type": "string",
+            "nullable": true
+          },
+          "reservaties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reservatie"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Korting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "percentage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minimumAantalReservatiesInJaar": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "Reservatie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aantalPersonen": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dag": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "beginUur": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "duurInUren": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tot": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "prijsPerUur": {
+            "type": "number",
+            "format": "double"
+          },
+          "prijsPerPersoonStandaardCatering": {
+            "type": "number",
+            "format": "double"
+          },
+          "prijsPerPersoonCatering": {
+            "type": "number",
+            "format": "double"
+          },
+          "catering": {
+            "$ref": "#/components/schemas/Catering"
+          },
+          "korting": {
+            "$ref": "#/components/schemas/Korting"
+          },
+          "vergaderruimte": {
+            "$ref": "#/components/schemas/Vergaderruimte"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Vergaderruimte": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "naam": {
+            "type": "string",
+            "nullable": true
+          },
+          "vergaderruimteType": {
+            "$ref": "#/components/schemas/VergaderruimteType"
+          },
+          "maximumAantalPersonen": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prijsPerUur": {
+            "type": "number",
+            "format": "double"
+          },
+          "prijsPerPersoonStandaardCatering": {
+            "type": "number",
+            "format": "double"
+          },
+          "reservaties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reservatie"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VergaderruimteType": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      }
+    }
+  }
+}

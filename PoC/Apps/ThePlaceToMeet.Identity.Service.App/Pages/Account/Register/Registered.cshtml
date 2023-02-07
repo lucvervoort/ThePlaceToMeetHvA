@@ -1,0 +1,25 @@
+@page
+@model ThePlaceToMeet.IdentityService.Pages.Register.Registered
+
+<div class="registered-page">
+    <h1>
+        Registered
+        <small>You are now authorized to log in</small>
+    </h1>
+
+    @if (Model.View.PostRegisterRedirectUri != null)
+    {
+        <div>
+            Click <a class="PostRegisterRedirectUri" href="@Model.View.PostRegisterRedirectUri">here</a> to return to the
+            <span>@Model.View.ClientName</span> application.
+        </div>
+    }
+</div>
+
+@section scripts
+{
+    @if (Model.View.AutomaticRedirectAfterRegistration)
+    {
+        <script src="~/js/registration-redirect.js"></script>
+    }
+}
