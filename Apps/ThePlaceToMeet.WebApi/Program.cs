@@ -80,6 +80,8 @@ namespace ThePlaceToMeet.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.WebHost.UseKestrel().UseContentRoot(Directory.GetCurrentDirectory()).UseIISIntegration().UseUrls("http://*:5000,https://*.5001");
+
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName()
@@ -185,8 +187,6 @@ namespace ThePlaceToMeet.WebApi
                 });
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             }*/);
-
-            builder.WebHost.UseUrls("http://*:5000,https://*.5001");
             
             var app = builder.Build();            
 
