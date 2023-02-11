@@ -7,12 +7,12 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
     public class VergaderruimteRepository : IMeetingRoomRepository 
     {
         private readonly RepositoryDbContext _context;
-        private readonly DbSet<Contracts.DTO.MeetingRoom> _vergaderruimtes;
+        private readonly DbSet<Contracts.DTO.MeetingRoom> _meetingRooms;
 
         public VergaderruimteRepository(RepositoryDbContext context) 
         {
             _context = context;
-            _vergaderruimtes = _context.Vergaderruimtes;
+            _meetingRooms = _context.Vergaderruimtes;
         }
 
         public void Add(MeetingRoom meetingRoom)
@@ -23,7 +23,7 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
 
         public IEnumerable<Contracts.DTO.MeetingRoom> GetAll() 
         {
-            return _vergaderruimtes
+            return _meetingRooms
                 .OrderBy(vr => vr.Naam)
                 .ThenBy(vr => vr.MaximumAantalPersonen)
                 .AsNoTracking()
@@ -32,7 +32,7 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
 
         public Task<List<MeetingRoom>> GetAllAsync()
         {
-            return _vergaderruimtes
+            return _meetingRooms
                             .OrderBy(vr => vr.Naam)
                             .ThenBy(vr => vr.MaximumAantalPersonen)
                             .AsNoTracking()
@@ -41,21 +41,21 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
 
         public Contracts.DTO.MeetingRoom? GetById(int id) 
         {
-            return _vergaderruimtes
+            return _meetingRooms
                 .Include(vr => vr.Reservaties)
                 .SingleOrDefault(vr => vr.Id == id);
         }
 
         public Task<MeetingRoom?> GetByIdAsync(int id)
         {
-            return _vergaderruimtes
+            return _meetingRooms
                 .Include(vr => vr.Reservaties)
                 .SingleOrDefaultAsync(vr => vr.Id == id);
         }
 
         public IEnumerable<Contracts.DTO.MeetingRoom> GetByMaxAantalPersonen(int maxAantalPersonen) 
         {
-            return _vergaderruimtes
+            return _meetingRooms
                 .Where(vr => vr.MaximumAantalPersonen >= maxAantalPersonen)
                 .OrderBy(vr => vr.Naam)
                 .ThenBy(vr => vr.MaximumAantalPersonen)
@@ -64,7 +64,7 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
 
         public Task<List<MeetingRoom>> GetByMaxAantalPersonenAsync(int maxAantalPersonen)
         {
-            return _vergaderruimtes
+            return _meetingRooms
                 .Where(vr => vr.MaximumAantalPersonen >= maxAantalPersonen)
                 .OrderBy(vr => vr.Naam)
                 .ThenBy(vr => vr.MaximumAantalPersonen)

@@ -22,6 +22,7 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
         public void Add(Contracts.DTO.Customer klant)
         {
             _klanten.Add(klant);
+            _context.SaveChanges();
         }
 
         public Contracts.DTO.Customer GetByEmail(string email)

@@ -32,7 +32,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<MeetingRoom>>> MeetingRooms()
         {
             _logger?.LogDebug("-> Vergaderruimte::MeetingRooms");
-            // TODO LVET: var vergaderuimte = await _vergaderruimteRepository.GetAsync();
+            // TODO LVET: var vergaderuimte = await _meetingRoomRepository.GetAsync();
             var vergaderruimtes = _meetingRoomRepository.GetAll();
             if (vergaderruimtes == null)
             {
@@ -43,15 +43,20 @@ namespace ThePlaceToMeet.WebApi.Controllers
             return Ok(vergaderruimtes);
         }
 
-        [HttpGet("max/{maxAantalPersonen:int}", Name = "MeetingRoom::GetByMaxAantalPersonen")]
+        [HttpGet("max/{maxAantalPersonen:int}", Name = "MeetingRoom::GetByMaxNumberOfPersons")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MeetingRoom>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<MeetingRoom>>> GetByMaxNumberOfPersons(int maaxNumberOfPersons)
+        public async Task<ActionResult<IEnumerable<MeetingRoom>>> GetByMaxNumberOfPersons(int maxNumberOfPersons)
         {
-            var meetingrooms = _meetingRoomRepository.GetByMaxAantalPersonen(maaxNumberOfPersons);
+            _logger?.LogDebug("-> MeetingRoomController::GetByMaxNumberOfPersons");
+            var meetingrooms = _meetingRoomRepository.GetByMaxAantalPersonen(maxNumberOfPersons);
             if (meetingrooms == null || meetingrooms.Count() == 0)
+            {
+                _logger?.LogDebug("<- MeetingRoomController::GetByMaxNumberOfPersons (Not found)");
                 return NotFound(new List<MeetingRoom>());
+            }
+            _logger?.LogDebug("<- MeetingRoomController::GetByMaxNumberOfPersons");
             return Ok(meetingrooms);
         }
 
@@ -61,9 +66,14 @@ namespace ThePlaceToMeet.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MeetingRoom>> GetById(int id)
         {
+            _logger?.LogDebug("-> MeetingRoomController::GetById");
             var vergaderruimte = _meetingRoomRepository.GetById(id);
             if (vergaderruimte == null)
+            {
+                _logger?.LogDebug("<- MeetingRoomController::GetById (Not found)");
                 return NotFound();
+            }
+            _logger?.LogDebug("<- MeetingRoomController::GetById");
             return Ok(new MeetingRoom());
         }
     }
