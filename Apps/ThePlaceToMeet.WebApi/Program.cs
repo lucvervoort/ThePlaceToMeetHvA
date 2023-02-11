@@ -86,7 +86,7 @@ namespace ThePlaceToMeet.WebApi
                 .Enrich.FromLogContext()
                 .Enrich.WithProperty("Version", "1.0.0")
                 .ReadFrom.Configuration(ctx.Configuration));
-            
+                                 
             var sqlServer = builder.Configuration.GetValue<bool>("App:SQLServer");
             var hsTs = builder.Configuration.GetValue<bool>("App:HsTs");
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -161,7 +161,7 @@ namespace ThePlaceToMeet.WebApi
             builder.Services.AddScoped<ICustomerRepository, KlantRepository>();
             builder.Services.AddScoped<ICateringRepository, CateringRepository>();
             builder.Services.AddScoped<IDiscountRepository, KortingRepository>();
-
+           
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(/* options =>
@@ -186,7 +186,9 @@ namespace ThePlaceToMeet.WebApi
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             }*/);
 
-            var app = builder.Build();
+            builder.WebHost.UseUrls("http://*:5000,https://*.5001");
+            
+            var app = builder.Build();            
 
             app.Logger.LogInformation("ThePlaceToMeet API is starting...");
             app.Logger.LogInformation("Connection string: " + connectionString);
@@ -217,6 +219,7 @@ namespace ThePlaceToMeet.WebApi
                 Console.WriteLine("Release: HSTS (https)");
                 app.UseHsts(); // https
             }
+            
 
             app.Logger.LogInformation("Setting up headers...");
             UseHeadersMiddleware(app);
