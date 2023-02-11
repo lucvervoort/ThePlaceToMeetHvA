@@ -80,10 +80,14 @@ namespace ThePlaceToMeet.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.WebHost.UseKestrel()
-                // .UseContentRoot(Directory.GetCurrentDirectory())
+            // netstat -plnt
+            // to enable listening on 0.0.0.0 instead of 127.0.0.1: see launchSettings.json
+
+            //builder.WebHost
+                //.UseKestrel()
+                //.UseContentRoot(Directory.GetCurrentDirectory())
                 //.UseIISIntegration()
-                .UseUrls("http://*:5204,https://*.7045");
+            //    .UseUrls("http://0.0.0.0:5204,https://0.0.0.0:7045");
 
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
                 .Enrich.WithThreadId()
