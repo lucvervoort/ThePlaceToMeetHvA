@@ -87,7 +87,7 @@ namespace ThePlaceToMeet.WebApi
                 //.UseKestrel()
                 //.UseContentRoot(Directory.GetCurrentDirectory())
                 //.UseIISIntegration()
-            //    .UseUrls("http://0.0.0.0:5204,https://0.0.0.0:7045");
+                //.UseUrls("http://0.0.0.0:5204,https://0.0.0.0:7045");
 
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
                 .Enrich.WithThreadId()
@@ -98,10 +98,14 @@ namespace ThePlaceToMeet.WebApi
                                  
             var sqlServer = builder.Configuration.GetValue<bool>("App:SQLServer");
             var hsTs = builder.Configuration.GetValue<bool>("App:HsTs");
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            var docker = builder.Configuration.GetValue<bool>("App:Docker");
+            var connectionStringName = "DefaultConnection";
+            var connectionString = "";
             if (!sqlServer)
             {
-                connectionString = builder.Configuration.GetConnectionString("DefaultMySQLConnection");
+                connectionStringName = "DefaultMySQLConnection";
+                if (docker) connectionStringName += "Docker";
+                connectionString = builder.Configuration.GetConnectionString(connectionStringName);
 
                 var serverVersion = new MySqlServerVersion(new Version(8, 0, 31));
 
@@ -116,6 +120,8 @@ namespace ThePlaceToMeet.WebApi
             }
             else
             {
+                if (docker) connectionStringName += "Docker";
+                connectionString = builder.Configuration.GetConnectionString(connectionStringName);
                 // Add services to the container.
                 builder.Services.AddDbContext<RepositoryDbContext>(options =>
                  options.UseSqlServer(connectionString, b => b.EnableRetryOnFailure()));
@@ -146,12 +152,12 @@ namespace ThePlaceToMeet.WebApi
                         else
                         */
                             builder.AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                       //.WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
-                       //.WithHeaders("authorization", "accept", "content-type", "origin")
-                       //.AllowCredentials()
-                       .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                //.WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
+                                //.WithHeaders("authorization", "accept", "content-type", "origin")
+                                //.AllowCredentials()
+                                .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
                     });
                 });
             }
