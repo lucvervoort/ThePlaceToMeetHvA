@@ -56,7 +56,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
                 return NotFound();
             }
             _logger?.LogDebug("<- CateringController::GetBy");
-            return Ok(new Catering());
+            return Ok(catering);
         }
 
         [HttpPost(Name = "Catering::Add")]

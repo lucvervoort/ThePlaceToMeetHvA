@@ -33,14 +33,14 @@ namespace ThePlaceToMeet.WebApi.Controllers
         {
             _logger?.LogDebug("-> Vergaderruimte::MeetingRooms");
             // TODO LVET: var vergaderuimte = await _meetingRoomRepository.GetAsync();
-            var vergaderruimtes = _meetingRoomRepository.GetAll();
-            if (vergaderruimtes == null)
+            var meetingRooms = _meetingRoomRepository.GetAll();
+            if (meetingRooms == null)
             {
                 _logger?.LogDebug("<- Vergaderruimte::MeetingRooms (FAIL)");
                 return NotFound(new List<MeetingRoom>());
             }
             _logger?.LogDebug("<- Vergaderruimte::MeetingRooms (OK)");
-            return Ok(vergaderruimtes);
+            return Ok(meetingRooms);
         }
 
         [HttpGet("max/{maxAantalPersonen:int}", Name = "MeetingRoom::GetByMaxNumberOfPersons")]
@@ -67,14 +67,14 @@ namespace ThePlaceToMeet.WebApi.Controllers
         public async Task<ActionResult<MeetingRoom>> GetById(int id)
         {
             _logger?.LogDebug("-> MeetingRoomController::GetById");
-            var vergaderruimte = _meetingRoomRepository.GetById(id);
-            if (vergaderruimte == null)
+            var meetingRoom = _meetingRoomRepository.GetById(id);
+            if (meetingRoom == null)
             {
                 _logger?.LogDebug("<- MeetingRoomController::GetById (Not found)");
                 return NotFound();
             }
             _logger?.LogDebug("<- MeetingRoomController::GetById");
-            return Ok(new MeetingRoom());
+            return Ok(meetingRoom);
         }
     }
 }

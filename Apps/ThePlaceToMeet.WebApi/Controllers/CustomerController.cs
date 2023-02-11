@@ -50,26 +50,26 @@ namespace ThePlaceToMeet.WebApi.Controllers
         public async Task<ActionResult<Customer>> GetByEmail(string email)
         {
             _logger?.LogDebug("-> CustomerController::GetByEmail");
-            var catering = _customerRepository.GetByEmail(email);
-            if (catering == null)
+            var customer = _customerRepository.GetByEmail(email);
+            if (customer == null)
             {
                 _logger?.LogDebug("<- CustomerController::GetByEmail (Not found)");
                 return NotFound();
             }
             _logger?.LogDebug("<- CustomerController::GetByEmail");
-            return Ok(new Customer());
+            return Ok(customer);
         }
 
         [HttpPost(Name = "Customer::Add")]
         // No anonymous to prevent flooding of db
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Add(Customer klant)
+        public async Task<ActionResult> Add(Customer customer)
         {
             _logger?.LogDebug("-> CustomerController::Add");
             try
             {
-                _customerRepository.Add(klant);
+                _customerRepository.Add(customer);
                 _customerRepository.SaveChanges();
                 _logger?.LogDebug("<- CustomerController::Add");
                 return Ok();

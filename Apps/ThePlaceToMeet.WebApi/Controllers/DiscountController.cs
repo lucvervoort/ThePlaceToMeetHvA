@@ -32,14 +32,14 @@ namespace ThePlaceToMeet.WebApi.Controllers
         {
             _logger?.LogDebug("-> Discount::Discounts");
             // TODO LVET: var vergaderuimte = await _vergaderruimteRepository.GetAsync();
-            var vergaderruimtes = _discountRepository.GetAll();
-            if (vergaderruimtes == null)
+            var discounts = _discountRepository.GetAll();
+            if (discounts == null)
             {
                 _logger?.LogDebug("<- Discount::Discounts (FAIL)");
                 return NotFound(new List<MeetingRoom>());
             }
             _logger?.LogDebug("<- Discount::Discounts (OK)");
-            return Ok(vergaderruimtes);
+            return Ok(discounts);
         }
 
         [HttpGet("{id:int}", Name = "Discount::GetById")]
@@ -49,14 +49,14 @@ namespace ThePlaceToMeet.WebApi.Controllers
         public async Task<ActionResult<Discount>> GetById(int id)
         {
             _logger?.LogDebug("-> Discount::GetById");
-            var vergaderruimte = _discountRepository.GetById(id);
-            if (vergaderruimte == null)
+            var discount = _discountRepository.GetById(id);
+            if (discount == null)
             {
                 _logger?.LogDebug("<- Discount::GetById (Not found)");
                 return NotFound();
             }
             _logger?.LogDebug("<- Discount::GetById");
-            return Ok(new Discount());
+            return Ok(discount);
         }
     }
 }
