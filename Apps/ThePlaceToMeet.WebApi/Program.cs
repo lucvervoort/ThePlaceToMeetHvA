@@ -86,8 +86,9 @@ namespace ThePlaceToMeet.WebApi
                 .Enrich.FromLogContext()
                 .Enrich.WithProperty("Version", "1.0.0")
                 .ReadFrom.Configuration(ctx.Configuration));
-
+            
             var sqlServer = builder.Configuration.GetValue<bool>("App:SQLServer");
+            var hsTs = builder.Configuration.GetValue<bool>("App:HsTs");
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             if (!sqlServer)
             {
@@ -211,8 +212,9 @@ namespace ThePlaceToMeet.WebApi
                 }*/
                 );
             }
-            else
+            else if(hsTs)
             {
+                Console.WriteLine("Release: HSTS (https)");
                 app.UseHsts(); // https
             }
 
