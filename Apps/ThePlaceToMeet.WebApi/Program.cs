@@ -57,13 +57,21 @@ namespace ThePlaceToMeet.WebApi
     {
         public static string GetLocalIPAddress()
         {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
+            string ipName = null;
+            var hostName = Dns.GetHostName();
+            Console.WriteLine("Host name: " + hostName);
+            var host = Dns.GetHostEntry(hostName);
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    return ip.ToString();
+                    ipName = ip.ToString();
+                    Console.WriteLine("Found IP: " + ipName);
                 }
+            }
+            if(!string.IsNullOrEmpty(ipName))
+            {
+                return ipName;
             }
             throw new Exception("No network adapters with an IPv4 address.");
         }
