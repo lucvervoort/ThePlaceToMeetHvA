@@ -8,7 +8,7 @@ namespace ThePlaceToMeet.Infrastructure.Mappers
     {
         public void Configure(EntityTypeBuilder<Contracts.DTO.Customer> builder)
         {
-            builder.ToTable("Klant");
+            builder.ToTable("klant");
             builder.HasKey(t => t.Id);
             builder.Property(t => t.LastName).HasColumnName("Naam").IsRequired().HasMaxLength(100);
             builder.Property(t => t.FirstName).HasColumnName("Voornaam").IsRequired().HasMaxLength(100);

@@ -7,7 +7,7 @@ namespace ThePlaceToMeet.Infrastructure.Mappers
     {
         public void Configure(EntityTypeBuilder<Contracts.DTO.Discount> builder)
         {
-            builder.ToTable("Korting");
+            builder.ToTable("korting");
             builder.Property(t => t.MinimumReservationsInAYear).HasColumnName("MinimumAantalReservatiesInJaar");
         }
     }

@@ -9,7 +9,7 @@ namespace ThePlaceToMeet.Infrastructure.Mappers
         public void Configure(EntityTypeBuilder<Contracts.DTO.Reservation> builder)
         {
             //implemsenteer
-            builder.ToTable("Reservatie");
+            builder.ToTable("reservatie");
             builder
                 .HasOne(t => t.Catering)
                 .WithMany()

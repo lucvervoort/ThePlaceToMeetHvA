@@ -8,7 +8,7 @@ namespace ThePlaceToMeet.Infrastructure.Mappers
     {
         public void Configure(EntityTypeBuilder<Contracts.DTO.Catering> builder)
         {
-            builder.ToTable("Catering");
+            builder.ToTable("catering");
             builder.Property(t => t.Titel).IsRequired().HasMaxLength(100);
             builder.Property(t => t.Beschrijving).IsRequired();
         }

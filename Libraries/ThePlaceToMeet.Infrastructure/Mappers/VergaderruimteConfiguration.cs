@@ -8,7 +8,7 @@ namespace ThePlaceToMeet.Infrastructure.Mappers
     {
         public void Configure(EntityTypeBuilder<Contracts.DTO.MeetingRoom> builder)
         {
-            builder.ToTable("Vergaderruimte");
+            builder.ToTable("vergaderruimte");
             builder.HasMany(t => t.Reservaties).WithOne(t => t.MeetingRoom).IsRequired().OnDelete(DeleteBehavior.Restrict);
         }
     }
