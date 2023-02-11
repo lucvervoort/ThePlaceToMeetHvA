@@ -9,12 +9,20 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
         private readonly RepositoryDbContext _context;
         private readonly DbSet<Contracts.DTO.MeetingRoom> _vergaderruimtes;
 
-        public VergaderruimteRepository(RepositoryDbContext context) {
+        public VergaderruimteRepository(RepositoryDbContext context) 
+        {
             _context = context;
             _vergaderruimtes = _context.Vergaderruimtes;
         }
 
-        public IEnumerable<Contracts.DTO.MeetingRoom> GetAll() {
+        public void Add(MeetingRoom meetingRoom)
+        {
+            _context.Add(meetingRoom);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Contracts.DTO.MeetingRoom> GetAll() 
+        {
             return _vergaderruimtes
                 .OrderBy(vr => vr.Naam)
                 .ThenBy(vr => vr.MaximumAantalPersonen)
@@ -31,7 +39,8 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
                             .ToListAsync();
         }
 
-        public Contracts.DTO.MeetingRoom? GetById(int id) {
+        public Contracts.DTO.MeetingRoom? GetById(int id) 
+        {
             return _vergaderruimtes
                 .Include(vr => vr.Reservaties)
                 .SingleOrDefault(vr => vr.Id == id);
@@ -44,7 +53,8 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
                 .SingleOrDefaultAsync(vr => vr.Id == id);
         }
 
-        public IEnumerable<Contracts.DTO.MeetingRoom> GetByMaxAantalPersonen(int maxAantalPersonen) {
+        public IEnumerable<Contracts.DTO.MeetingRoom> GetByMaxAantalPersonen(int maxAantalPersonen) 
+        {
             return _vergaderruimtes
                 .Where(vr => vr.MaximumAantalPersonen >= maxAantalPersonen)
                 .OrderBy(vr => vr.Naam)
@@ -61,7 +71,8 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public void SaveChanges() {
+        public void SaveChanges() 
+        {
             _context.SaveChanges();
         }
     }

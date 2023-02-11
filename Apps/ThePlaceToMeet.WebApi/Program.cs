@@ -249,6 +249,7 @@ namespace ThePlaceToMeet.WebApi
             // For Identity Server:
             app.UseAuthentication();
             */
+
             app.UseAuthorization();
 
             // SignalR:

@@ -8,6 +8,7 @@ namespace ThePlaceToMeet.Contracts.Interfaces
         IEnumerable<MeetingRoom> GetAll();
         IEnumerable<MeetingRoom> GetByMaxAantalPersonen(int maxAantalPersonen);
         MeetingRoom? GetById(int id);
+        void Add(MeetingRoom meetingRoom);
         void SaveChanges();
         #endregion
 

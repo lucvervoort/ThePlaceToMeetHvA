@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ThePlaceToMeet.Contracts.Interfaces;
-using ThePlaceToMeet.Infrastructure;
 
 namespace ThePlaceToMeet.Infrastructure.Repositories
 {
@@ -32,7 +31,7 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
 
         public void SaveChanges()
         {
-            _context.SaveChanges();
+            var saveCount = _context.SaveChanges();
         }
     }
 }

@@ -7,5 +7,7 @@ namespace ThePlaceToMeet.Contracts.Interfaces
     {
         IEnumerable<Catering> GetAll();
         Catering GetBy(int id);
+        void Add(Catering catering);
+        void SaveChanges();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using ThePlaceToMeet.Contracts.DTO;
 using ThePlaceToMeet.Contracts.Interfaces;
@@ -11,6 +12,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
 #endif
+    [Authorize]
     [Route("[controller]")]
     public class MeetingRoomController : ControllerBase
     {
@@ -24,6 +26,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
         }
 
         [HttpGet(Name = "MeetingRoom::MeetingRooms")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MeetingRoom>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<MeetingRoom>>> MeetingRooms()
@@ -41,6 +44,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
         }
 
         [HttpGet("max/{maxAantalPersonen:int}", Name = "MeetingRoom::GetByMaxAantalPersonen")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MeetingRoom>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<MeetingRoom>>> GetByMaxNumberOfPersons(int maaxNumberOfPersons)
@@ -52,6 +56,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
         }
 
         [HttpGet("{id:int}", Name = "MeetingRoom::GetById")]
+        [AllowAnonymous]        
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeetingRoom))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MeetingRoom>> GetById(int id)
