@@ -82,7 +82,8 @@ namespace ThePlaceToMeet.WebApi
 
             builder.WebHost.UseKestrel()
                 // .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration().UseUrls("http://*:5000,https://*.5001");
+                //.UseIISIntegration()
+                .UseUrls("http://*:5204,https://*.7045");
 
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
                 .Enrich.WithThreadId()
