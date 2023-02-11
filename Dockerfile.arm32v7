@@ -1,15 +1,15 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0-bullseye-slim-arm32v7 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0-bullseye-slim-arm32v7 AS build
+RUN dotnet --version
 WORKDIR /src
 COPY ["Apps/ThePlaceToMeet.WebApi/ThePlaceToMeet.WebApi.csproj", "Apps/ThePlaceToMeet.WebApi/"]
 COPY ["Libraries/ThePlaceToMeet.Contracts/ThePlaceToMeet.Contracts.csproj", "Libraries/ThePlaceToMeet.Contracts/"]
 COPY ["Libraries/ThePlaceToMeet.Infrastructure/ThePlaceToMeet.Infrastructure.csproj", "Libraries/ThePlaceToMeet.Infrastructure/"]
 COPY ["Libraries/ThePlaceToMeet.Domain/ThePlaceToMeet.Domain.csproj", "Libraries/ThePlaceToMeet.Domain/"]
-
 
 RUN dotnet restore "./Apps/ThePlaceToMeet.WebApi/ThePlaceToMeet.WebApi.csproj"
 COPY . .
