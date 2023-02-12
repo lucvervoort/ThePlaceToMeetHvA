@@ -138,6 +138,7 @@ namespace ThePlaceToMeet.WebApi
             // var corsActive =  corsActiveString.Equals("true") ? true : false;
             if (corsActive)
             {
+                Console.WriteLine("Cors active");
                 // Adding CORS Policy
                 builder.Services.AddCors(options =>
                 {
@@ -229,8 +230,12 @@ namespace ThePlaceToMeet.WebApi
             }
             else if(hsTs)
             {
-                Console.WriteLine("Release: HSTS (https)");
+                app.Logger.LogInformation("Release: HSTS (https)");
                 app.UseHsts(); // https
+            }
+            else if(app.Environment.IsProduction())
+            {
+                app.Logger.LogInformation("Production mode");
             }
             
 

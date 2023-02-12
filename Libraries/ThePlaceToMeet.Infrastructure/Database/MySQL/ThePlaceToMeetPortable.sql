@@ -84,3 +84,102 @@ CREATE TABLE `reservatie` (
 LOCK TABLES `reservatie` WRITE;
 INSERT INTO `reservatie` VALUES (1,10,'2022-12-28 00:00:00.000000',8,5,10.00,0.00,10.00,2,NULL,1,1),(2,10,'2022-12-28 00:00:00.000000',14,4,10.00,0.00,10.00,NULL,NULL,1,1),(3,10,'2022-12-26 00:00:00.000000',9,4,10.00,0.00,12.00,NULL,NULL,1,2);
 UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `aspnetroleclaims`;
+CREATE TABLE `aspnetroleclaims` (
+  `Id` int NOT NULL,
+  `RoleId` varchar(450) NOT NULL,
+  `ClaimType` varchar(0) DEFAULT NULL,
+  `ClaimValue` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_AspNetRoleClaims_RoleId` (`RoleId`)
+);
+
+LOCK TABLES `aspnetroleclaims` WRITE;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `aspnetroles`;
+CREATE TABLE `aspnetroles` (
+  `Id` varchar(450) NOT NULL,
+  `Name` varchar(256) DEFAULT NULL,
+  `NormalizedName` varchar(256) DEFAULT NULL,
+  `ConcurrencyStamp` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (`Id`(255)),
+  UNIQUE KEY `RoleNameIndex` (`NormalizedName`(255))
+);
+
+LOCK TABLES `aspnetroles` WRITE;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `aspnetuserclaims`;
+CREATE TABLE `aspnetuserclaims` (
+  `Id` int NOT NULL,
+  `UserId` varchar(450) NOT NULL,
+  `ClaimType` varchar(0) DEFAULT NULL,
+  `ClaimValue` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_AspNetUserClaims_UserId` (`UserId`)
+);
+
+LOCK TABLES `aspnetuserclaims` WRITE;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `aspnetuserlogins`;
+CREATE TABLE `aspnetuserlogins` (
+  `LoginProvider` varchar(128) NOT NULL,
+  `ProviderKey` varchar(128) NOT NULL,
+  `ProviderDisplayName` varchar(0) DEFAULT NULL,
+  `UserId` varchar(450) NOT NULL,
+  PRIMARY KEY (`LoginProvider`,`ProviderKey`),
+  KEY `IX_AspNetUserLogins_UserId` (`UserId`)
+);
+
+LOCK TABLES `aspnetuserlogins` WRITE;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `aspnetuserroles`;
+CREATE TABLE `aspnetuserroles` (
+  `UserId` varchar(450) NOT NULL,
+  `RoleId` varchar(450) NOT NULL,
+  KEY `IX_AspNetUserRoles_RoleId` (`RoleId`)
+);
+
+LOCK TABLES `aspnetuserroles` WRITE;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `aspnetusers`;
+CREATE TABLE `aspnetusers` (
+  `Id` varchar(450) NOT NULL,
+  `UserName` varchar(256) DEFAULT NULL,
+  `NormalizedUserName` varchar(256) DEFAULT NULL,
+  `Email` varchar(256) DEFAULT NULL,
+  `NormalizedEmail` varchar(256) DEFAULT NULL,
+  `EmailConfirmed` tinyint(1) NOT NULL,
+  `PasswordHash` varchar(0) DEFAULT NULL,
+  `SecurityStamp` varchar(0) DEFAULT NULL,
+  `ConcurrencyStamp` varchar(0) DEFAULT NULL,
+  `PhoneNumber` varchar(0) DEFAULT NULL,
+  `PhoneNumberConfirmed` tinyint(1) NOT NULL,
+  `TwoFactorEnabled` tinyint(1) NOT NULL,
+  `LockoutEnd` datetime(6) DEFAULT NULL,
+  `LockoutEnabled` tinyint(1) NOT NULL,
+  `AccessFailedCount` int NOT NULL,
+  PRIMARY KEY (`Id`(255)),
+  UNIQUE KEY `UserNameIndex` (`NormalizedUserName`(255)),
+  KEY `EmailIndex` (`NormalizedEmail`(255))
+);
+
+LOCK TABLES `aspnetusers` WRITE;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `aspnetusertokens`;
+CREATE TABLE `aspnetusertokens` (
+  `UserId` varchar(450) NOT NULL,
+  `LoginProvider` varchar(128) NOT NULL,
+  `Name` varchar(128) NOT NULL,
+  `Value` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (`UserId`,`LoginProvider`,`Name`)
+);
+
+LOCK TABLES `aspnetusertokens` WRITE;
+UNLOCK TABLES;
