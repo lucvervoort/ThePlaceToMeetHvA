@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ThePlaceToMeet.Infrastructure.DTO;
 
 namespace ThePlaceToMeet.Infrastructure.Mappers
 {
