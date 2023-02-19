@@ -10,50 +10,12 @@ using ThePlaceToMeet.Infrastructure;
 using ThePlaceToMeet.Infrastructure.Repositories;
 using ThePlaceToMeet.WebApi.Hubs;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
-/*
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authorization;
-using Swashbuckle.AspNetCore.SwaggerGen;
-*/
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 #endif
 
 namespace ThePlaceToMeet.WebApi
 {
-    /*
-    public class AuthorizeCheckOperationFilter : IOperationFilter
-    {
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        {
-            var hasAuthorize =
-              context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any()
-              || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
-
-            if (hasAuthorize)
-            {
-                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
-                operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
-
-                operation.Security = new List<OpenApiSecurityRequirement>
-            {
-                new OpenApiSecurityRequirement
-                {
-                    [
-                        new OpenApiSecurityScheme {Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "oauth2"}
-                        }
-                    ] = new[] {"test.api"}
-                }
-            };
-
-            }
-        }
-    }
-    */
-
     public class Program
     {
         public static string GetLocalIPAddress()
@@ -84,41 +46,35 @@ namespace ThePlaceToMeet.WebApi
             // netstat -plnt
             // to enable listening on 0.0.0.0 instead of 127.0.0.1: see launchSettings.json
 
-            //builder.WebHost
-            //.UseKestrel()
-            //.UseContentRoot(Directory.GetCurrentDirectory())
-            //.UseIISIntegration()
-            //.UseUrls("http://0.0.0.0:5204,https://0.0.0.0:7045");
-
             {
                 // This example shows how to configure Kestrel's client certificate requirements along with
                 // enabling Lettuce Encrypt's certificate automation.
-                //if (Environment.GetEnvironmentVariable("REQUIRE_CLIENT_CERT") == "true")
-                //{
-                //    builder.WebHost.UseKestrel(k =>
-                //    {
-                //        var appServices = k.ApplicationServices;
-                //        k.ConfigureHttpsDefaults(h =>
-                //        {
-                //            h.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
-                //            h.UseLettuceEncrypt(appServices);
-                //        });
-                //    });
-                //}
+                {
+                    builder.WebHost.UseKestrel(kestrel =>
+                    {
+                        var appServices = kestrel.ApplicationServices;
+                        kestrel.ConfigureHttpsDefaults(h =>
+                        {
+                            h.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                            h.UseLettuceEncrypt(appServices);
+                        });
+                    });
+                }
 
+                /*
                 // This example shows how to configure Kestrel's address/port binding along with
                 // enabling Lettuce Encrypt's certificate automation.
-                //if (Environment.GetEnvironmentVariable("CONFIG_KESTREL_VIA_CODE") == "true")
                 {
                     builder.WebHost.PreferHostingUrls(false);
-                    builder.WebHost.UseKestrel(k =>
-                    {
-                        var appServices = k.ApplicationServices;
-                        k.Listen(IPAddress.Any, 7045,
+                    builder.WebHost.UseKestrel(kestrel =>
+                    {                        
+                        var appServices = kestrel.ApplicationServices;
+                        kestrel.Listen(IPAddress.Any, 7045,
                             o =>
                                 o.UseHttps(h => h.UseLettuceEncrypt(appServices)));
                     });
                 }
+                */
             }
 
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
@@ -197,16 +153,6 @@ namespace ThePlaceToMeet.WebApi
                 });
             }
 
-            /*
-            // Identity Server:
-            builder.Services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", opt =>
-                {
-                    opt.RequireHttpsMetadata = false;
-                    opt.Authority = "https://localhost:5005";
-                    opt.Audience = "test.api";                   
-                });
-            */
             builder.Services.AddScoped<IMeetingRoomRepository, VergaderruimteRepository>();
             builder.Services.AddScoped<ICustomerRepository, KlantRepository>();
             builder.Services.AddScoped<ICateringRepository, CateringRepository>();
@@ -214,27 +160,7 @@ namespace ThePlaceToMeet.WebApi
            
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(/* options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Protected API", Version = "v1" });
-                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
-                    {
-                        AuthorizationCode = new OpenApiOAuthFlow
-                        {
-                            AuthorizationUrl = new Uri("https://localhost:5005/connect/authorize"),
-                            TokenUrl = new Uri("https://localhost:5005/connect/token"),                            
-                            Scopes = new Dictionary<string, string>
-                            {
-                                {"test.api", "ThePlaceToMeet API V1"}
-                            }
-                        }
-                    }
-                });
-                options.OperationFilter<AuthorizeCheckOperationFilter>();
-            }*/);
+            builder.Services.AddSwaggerGen();
             
             var app = builder.Build();            
 
@@ -247,20 +173,7 @@ namespace ThePlaceToMeet.WebApi
             {
                 app.Logger.LogInformation("Development mode: setting up swagger...");
                 app.UseSwagger();
-                app.UseSwaggerUI(
-                /* options =>
-                {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ThePlaceToMeet API V1");
-
-                    options.OAuthAppName("ThePlaceToMeet API - Swagger");
-                    options.OAuthClientId("interactive.public");
-                    options.OAuthClientSecret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0");
-                    options.OAuthScopeSeparator(" ");
-                    options.OAuth2RedirectUrl("https://localhost:5005/Account/Login");                        
-                    //options.OAuthUseBasicAuthenticationWithAccessCodeGrant();
-                    options.OAuthUsePkce();
-                }*/
-                );
+                app.UseSwaggerUI();
             }
             else if(hsTs)
             {
@@ -282,12 +195,6 @@ namespace ThePlaceToMeet.WebApi
             app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
-
-
-            /*
-            // For Identity Server:
-            app.UseAuthentication();
-            */
 
             app.UseAuthorization();
 
@@ -327,5 +234,3 @@ namespace ThePlaceToMeet.WebApi
         }
     }
 }
-// TODO: as Administrator?
-// dotnet dev-certs https –-trust
