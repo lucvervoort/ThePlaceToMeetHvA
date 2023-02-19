@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\LettuceEncrypt\src\LettuceEncrypt\LettuceEncrypt.csproj" />
     <ProjectReference Include="..\..\Libraries\ThePlaceToMeet.Contracts\ThePlaceToMeet.Contracts.csproj" />
     <ProjectReference Include="..\..\Libraries\ThePlaceToMeet.Infrastructure\ThePlaceToMeet.Infrastructure.csproj" />
   </ItemGroup>

@@ -1,0 +1,46 @@
+2023-02-19 18:31:02.445 +01:00 [INF] ThePlaceToMeet API is starting...
+2023-02-19 18:31:02.510 +01:00 [INF] Connection string: server=localhost;port=3306;user=root;password=ZwarteRidder007;database=theplacetomeet
+2023-02-19 18:31:02.579 +01:00 [INF] Local IP: 192.168.32.1
+2023-02-19 18:31:02.582 +01:00 [INF] Development mode: setting up swagger...
+2023-02-19 18:31:02.593 +01:00 [INF] Setting up headers...
+2023-02-19 18:31:03.345 +01:00 [DBG] Using the ASP.NET Core HTTPS development certificate for 'localhost' requests
+2023-02-19 18:31:03.512 +01:00 [INF] No domain names were configured
+2023-02-19 18:31:03.792 +01:00 [WRN] Overriding address(es) 'https://0.0.0.0:7045, http://0.0.0.0:5204'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-02-19 18:31:03.809 +01:00 [INF] Now listening on: https://0.0.0.0:7045
+2023-02-19 18:31:03.813 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-02-19 18:31:03.814 +01:00 [INF] Hosting environment: Development
+2023-02-19 18:31:03.814 +01:00 [INF] Content root path: C:\Users\u2389\source\repos\ThePlaceToMeetHvA\Apps\ThePlaceToMeet.WebApi
+2023-02-19 18:32:59.387 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/swagger - -
+2023-02-19 18:32:59.529 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/swagger - - - 301 0 - 146.7978ms
+2023-02-19 18:32:59.543 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/swagger/index.html - -
+2023-02-19 18:32:59.844 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/swagger/index.html - - - 200 - text/html;charset=utf-8 301.2201ms
+2023-02-19 18:32:59.902 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/swagger/swagger-ui.css - -
+2023-02-19 18:32:59.911 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/swagger/swagger-ui-standalone-preset.js - -
+2023-02-19 18:32:59.911 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/_framework/aspnetcore-browser-refresh.js - -
+2023-02-19 18:32:59.911 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/swagger/swagger-ui-bundle.js - -
+2023-02-19 18:32:59.967 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/_framework/aspnetcore-browser-refresh.js - - - 200 12012 application/javascript;+charset=utf-8 56.4181ms
+2023-02-19 18:32:59.999 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/_vs/browserLink - -
+2023-02-19 18:33:00.003 +01:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2023-02-19 18:33:00.003 +01:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2023-02-19 18:33:00.012 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/swagger/swagger-ui.css - - - 200 144929 text/css 110.1513ms
+2023-02-19 18:33:00.015 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/swagger/swagger-ui-standalone-preset.js - - - 200 312163 text/javascript 104.6706ms
+2023-02-19 18:33:00.031 +01:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2023-02-19 18:33:00.034 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/swagger/swagger-ui-bundle.js - - - 200 1061536 text/javascript 123.5524ms
+2023-02-19 18:33:00.118 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 119.3831ms
+2023-02-19 18:33:00.345 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/swagger/v1/swagger.json - -
+2023-02-19 18:33:00.387 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/swagger/favicon-32x32.png - -
+2023-02-19 18:33:00.389 +01:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2023-02-19 18:33:00.393 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/swagger/favicon-32x32.png - - - 200 628 image/png 5.9039ms
+2023-02-19 18:33:00.521 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 176.3478ms
+2023-02-19 18:33:29.707 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/Customer - -
+2023-02-19 18:33:29.724 +01:00 [INF] Executing endpoint 'ThePlaceToMeet.WebApi.Controllers.CustomerController.Customers (ThePlaceToMeet.WebApi)'
+2023-02-19 18:33:29.741 +01:00 [INF] Route matched with {action = "Customers", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[ThePlaceToMeet.Contracts.DTO.Customer]]] Customers() on controller ThePlaceToMeet.WebApi.Controllers.CustomerController (ThePlaceToMeet.WebApi).
+2023-02-19 18:33:30.396 +01:00 [INF] Executing action method ThePlaceToMeet.WebApi.Controllers.CustomerController.Customers (ThePlaceToMeet.WebApi) - Validation state: "Valid"
+2023-02-19 18:33:30.401 +01:00 [DBG] -> CustomerController::Customers
+2023-02-19 18:33:32.026 +01:00 [DBG] <- CustomerController::Customers (OK)
+2023-02-19 18:33:32.037 +01:00 [INF] Executed action method ThePlaceToMeet.WebApi.Controllers.CustomerController.Customers (ThePlaceToMeet.WebApi), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1630.3744ms.
+2023-02-19 18:33:32.047 +01:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ThePlaceToMeet.Contracts.DTO.Customer, ThePlaceToMeet.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2023-02-19 18:33:32.105 +01:00 [INF] Executed action ThePlaceToMeet.WebApi.Controllers.CustomerController.Customers (ThePlaceToMeet.WebApi) in 2355.3053ms
+2023-02-19 18:33:32.108 +01:00 [INF] Executed endpoint 'ThePlaceToMeet.WebApi.Controllers.CustomerController.Customers (ThePlaceToMeet.WebApi)'
+2023-02-19 18:33:32.110 +01:00 [INF] HTTP GET /Customer responded 200 in 2393.8113 ms
+2023-02-19 18:33:32.123 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/Customer - - - 200 - application/json;+charset=utf-8 2416.1972ms

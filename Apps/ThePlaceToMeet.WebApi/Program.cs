@@ -9,6 +9,7 @@ using ThePlaceToMeet.Contracts.Interfaces;
 using ThePlaceToMeet.Infrastructure;
 using ThePlaceToMeet.Infrastructure.Repositories;
 using ThePlaceToMeet.WebApi.Hubs;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 /*
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -84,10 +85,41 @@ namespace ThePlaceToMeet.WebApi
             // to enable listening on 0.0.0.0 instead of 127.0.0.1: see launchSettings.json
 
             //builder.WebHost
-                //.UseKestrel()
-                //.UseContentRoot(Directory.GetCurrentDirectory())
-                //.UseIISIntegration()
-                //.UseUrls("http://0.0.0.0:5204,https://0.0.0.0:7045");
+            //.UseKestrel()
+            //.UseContentRoot(Directory.GetCurrentDirectory())
+            //.UseIISIntegration()
+            //.UseUrls("http://0.0.0.0:5204,https://0.0.0.0:7045");
+
+            {
+                // This example shows how to configure Kestrel's client certificate requirements along with
+                // enabling Lettuce Encrypt's certificate automation.
+                //if (Environment.GetEnvironmentVariable("REQUIRE_CLIENT_CERT") == "true")
+                //{
+                //    builder.WebHost.UseKestrel(k =>
+                //    {
+                //        var appServices = k.ApplicationServices;
+                //        k.ConfigureHttpsDefaults(h =>
+                //        {
+                //            h.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                //            h.UseLettuceEncrypt(appServices);
+                //        });
+                //    });
+                //}
+
+                // This example shows how to configure Kestrel's address/port binding along with
+                // enabling Lettuce Encrypt's certificate automation.
+                //if (Environment.GetEnvironmentVariable("CONFIG_KESTREL_VIA_CODE") == "true")
+                {
+                    builder.WebHost.PreferHostingUrls(false);
+                    builder.WebHost.UseKestrel(k =>
+                    {
+                        var appServices = k.ApplicationServices;
+                        k.Listen(IPAddress.Any, 7045,
+                            o =>
+                                o.UseHttps(h => h.UseLettuceEncrypt(appServices)));
+                    });
+                }
+            }
 
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
                 .Enrich.WithThreadId()
@@ -126,6 +158,8 @@ namespace ThePlaceToMeet.WebApi
                 builder.Services.AddDbContext<RepositoryDbContext>(options =>
                  options.UseSqlServer(connectionString, b => b.EnableRetryOnFailure()));
             }
+
+            builder.Services.AddLettuceEncrypt();
 
             // SignalR:
             builder.Services.AddSignalR(o =>
