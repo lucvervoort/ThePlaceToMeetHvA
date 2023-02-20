@@ -18,6 +18,8 @@ internal class FileSystemAccountStore : IAccountStore
         ICertificateAuthorityConfiguration certificateAuthority)
         : this(new DirectoryInfo(AppContext.BaseDirectory), logger, certificateAuthority)
     {
+        logger.LogDebug("-> FileSystemAccountStore::FileSystemAccountStore");
+        logger.LogDebug("<- FileSystemAccountStore::FileSystemAccountStore");
     }
 
     public FileSystemAccountStore(
@@ -27,14 +29,17 @@ internal class FileSystemAccountStore : IAccountStore
     {
         _logger = logger;
 
+        _logger.LogDebug("-> FileSystemAccountStore::FileSystemAccountStore");
         var topAccountDir = rootDirectory.CreateSubdirectory("accounts");
         var directoryUri = certificateAuthority.AcmeDirectoryUri;
         var subPath = Path.Combine(directoryUri.Authority, directoryUri.LocalPath.Substring(1));
         _accountDir = topAccountDir.CreateSubdirectory(subPath);
+        _logger.LogDebug("<- FileSystemAccountStore::FileSystemAccountStore");
     }
 
     public async Task<AccountModel?> GetAccountAsync(CancellationToken cancellationToken)
     {
+        _logger.LogDebug("-> FileSystemAccountStore::GetAccountAsync");
         _logger.LogTrace("Looking for account information in {path}", _accountDir.FullName);
 
         foreach (var jsonFile in _accountDir.GetFiles("*.json"))
@@ -45,11 +50,13 @@ internal class FileSystemAccountStore : IAccountStore
             if (accountModel != null)
             {
                 _logger.LogDebug("Loaded account information from {path}", _accountDir.FullName);
+                _logger.LogDebug("<- FileSystemAccountStore::GetAccountAsync");
                 return accountModel;
             }
         }
 
         _logger.LogDebug("Could not find account information in {path}", _accountDir.FullName);
+        _logger.LogDebug("<- FileSystemAccountStore::GetAccountAsync");
         return default;
     }
 
@@ -67,6 +74,7 @@ internal class FileSystemAccountStore : IAccountStore
 
     public async Task SaveAccountAsync(AccountModel account, CancellationToken cancellationToken)
     {
+        _logger.LogDebug("-> FileSystemAccountStore::SaveAccountAsync");
         _accountDir.Create();
 
         var jsonFile = new FileInfo(Path.Combine(_accountDir.FullName, $"{account.Id}.json"));
@@ -80,5 +88,6 @@ internal class FileSystemAccountStore : IAccountStore
         await JsonSerializer.SerializeAsync(writeStream, account, serializerOptions, cancellationToken);
 
         _logger.LogDebug("Saved account information to {path}", jsonFile.FullName);
+        _logger.LogDebug("<- FileSystemAccountStore::SaveAccountAsync");
     }
 }

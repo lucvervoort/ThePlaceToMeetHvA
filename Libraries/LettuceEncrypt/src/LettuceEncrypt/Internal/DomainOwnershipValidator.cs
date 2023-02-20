@@ -17,6 +17,8 @@ internal abstract class DomainOwnershipValidator
 
     protected DomainOwnershipValidator(IHostApplicationLifetime appLifetime, AcmeClient client, ILogger logger, string domainName)
     {
+        logger.LogDebug("-> DomainOwnershipValidator::DomainOwnershipValidator");
+
         _client = client;
         _logger = logger;
         _domainName = domainName;
@@ -26,12 +28,14 @@ internal abstract class DomainOwnershipValidator
         {
             _appStarted.TrySetResult(null);
         }
+        logger.LogDebug("<- DomainOwnershipValidator::DomainOwnershipValidator");
     }
 
     public abstract Task ValidateOwnershipAsync(IAuthorizationContext authzContext, CancellationToken cancellationToken);
 
     protected async Task WaitForChallengeResultAsync(IAuthorizationContext authorizationContext, CancellationToken cancellationToken)
     {
+        _logger.LogDebug("-> DomainOwnershipValidator::WaitForChallengeResultAsync");
         var retries = 60;
         var delay = TimeSpan.FromSeconds(2);
 
@@ -48,20 +52,26 @@ internal abstract class DomainOwnershipValidator
             switch (authorization.Status)
             {
                 case AuthorizationStatus.Valid:
+                    _logger.LogDebug("<- DomainOwnershipValidator::WaitForChallengeResultAsync (Valid)");
                     return;
                 case AuthorizationStatus.Pending:
                     await Task.Delay(delay, cancellationToken);
+                    _logger.LogDebug("DomainOwnershipValidator::WaitForChallengeResultAsync (Pending)");
                     continue;
                 case AuthorizationStatus.Invalid:
+                    _logger.LogDebug("DomainOwnershipValidator::WaitForChallengeResultAsync (Invalid)");
                     throw InvalidAuthorizationError(authorization);
                 case AuthorizationStatus.Revoked:
+                    _logger.LogDebug("DomainOwnershipValidator::WaitForChallengeResultAsync (Revoked)");
                     throw new InvalidOperationException(
                         $"The authorization to verify domainName '{_domainName}' has been revoked.");
                 case AuthorizationStatus.Expired:
+                    _logger.LogDebug("DomainOwnershipValidator::WaitForChallengeResultAsync (Expired)");
                     throw new InvalidOperationException(
                         $"The authorization to verify domainName '{_domainName}' has expired.");
                 case AuthorizationStatus.Deactivated:
                 default:
+                    _logger.LogDebug("DomainOwnershipValidator::WaitForChallengeResultAsync (Deactivated)");
                     throw new ArgumentOutOfRangeException("authorization",
                         "Unexpected response from server while validating domain ownership.");
             }

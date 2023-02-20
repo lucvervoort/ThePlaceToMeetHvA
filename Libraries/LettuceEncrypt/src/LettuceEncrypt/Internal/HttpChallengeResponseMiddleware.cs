@@ -15,12 +15,15 @@ internal class HttpChallengeResponseMiddleware : IMiddleware
         IHttpChallengeResponseStore responseStore,
         ILogger<HttpChallengeResponseMiddleware> logger)
     {
+        logger.LogDebug("-> HttpChallengeResponseMiddleware::HttpChallengeResponseMiddleware");
         _responseStore = responseStore;
         _logger = logger;
+        logger.LogDebug("<- HttpChallengeResponseMiddleware::HttpChallengeResponseMiddleware");
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
+        _logger.LogDebug("-> HttpChallengeResponseMiddleware::InvokeAsync");
         // assumes that this middleware has been mapped
         var token = context.Request.Path.ToString();
         if (token.StartsWith("/"))
@@ -31,6 +34,7 @@ internal class HttpChallengeResponseMiddleware : IMiddleware
         if (!_responseStore.TryGetResponse(token, out var value))
         {
             await next(context);
+            _logger.LogDebug("<- HttpChallengeResponseMiddleware::InvokeAsync");
             return;
         }
 
@@ -39,5 +43,6 @@ internal class HttpChallengeResponseMiddleware : IMiddleware
         context.Response.ContentLength = value?.Length ?? 0;
         context.Response.ContentType = "application/octet-stream";
         await context.Response.WriteAsync(value!, context.RequestAborted);
+        _logger.LogDebug("<- HttpChallengeResponseMiddleware::InvokeAsync");
     }
 }

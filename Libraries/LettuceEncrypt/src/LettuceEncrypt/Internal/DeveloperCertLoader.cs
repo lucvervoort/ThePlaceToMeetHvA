@@ -23,24 +23,32 @@ internal class DeveloperCertLoader : ICertificateSource
         IHostEnvironment environment,
         ILogger<DeveloperCertLoader> logger)
     {
+        logger.LogDebug("-> DeveloperCertLoader::DeveloperCertLoader");
+
         _environment = environment;
         _logger = logger;
+
+        logger.LogDebug("<- DeveloperCertLoader::DeveloperCertLoader");
     }
 
     public Task<IEnumerable<X509Certificate2>> GetCertificatesAsync(CancellationToken cancellationToken)
     {
+        _logger.LogDebug("-> DeveloperCertLoader::GetCertificatesAsync");
         if (!_environment.IsDevelopment())
         {
+            _logger.LogDebug("<- DeveloperCertLoader::GetCertificatesAsync (not DEV)");
             return Task.FromResult(Enumerable.Empty<X509Certificate2>());
         }
 
         var certs = FindDeveloperCert();
 
+        _logger.LogDebug("<- DeveloperCertLoader::GetCertificatesAsync (DEV)");
         return Task.FromResult(certs);
     }
 
     private IEnumerable<X509Certificate2> FindDeveloperCert()
     {
+        _logger.LogDebug("-> DeveloperCertLoader::FindDeveloperCert");
         using var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
         store.Open(OpenFlags.ReadOnly);
         var certs = store.Certificates.Find(X509FindType.FindByExtension, AspNetHttpsOid, validOnly: false);
@@ -54,8 +62,10 @@ internal class DeveloperCertLoader : ICertificateSource
 
             foreach (var cert in certs)
             {
+                _logger.LogDebug("<- DeveloperCertLoader::FindDeveloperCert (" + cert.FriendlyName + ")");
                 yield return cert;
             }
         }
+        _logger.LogDebug("<- DeveloperCertLoader::FindDeveloperCert");
     }
 }

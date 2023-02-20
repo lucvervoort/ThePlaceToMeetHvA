@@ -37,20 +37,24 @@ internal class TlsAlpnChallengeResponder
         IClock clock,
         ILogger<TlsAlpnChallengeResponder> logger)
     {
+        logger.LogDebug("-> TlsAlpnChallengeResponder::TlsAlpnChallengeResponder");
         _options = options ?? throw new ArgumentNullException(nameof(options));
         _certificateSelector = certificateSelector ?? throw new ArgumentNullException(nameof(certificateSelector));
         _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        logger.LogDebug("<- TlsAlpnChallengeResponder::TlsAlpnChallengeResponder");
     }
 
     public bool IsEnabled => _options.Value.AllowedChallengeTypes.HasFlag(ChallengeType.TlsAlpn01);
 
     public void OnSslAuthenticate(ConnectionContext context, SslServerAuthenticationOptions options)
     {
+        _logger.LogDebug("-> TlsAlpnChallengeResponder::OnSslAuthenticate");
         if (_openChallenges > 0)
         {
             (options.ApplicationProtocols ??= new List<SslApplicationProtocol>()).Add(s_acmeTlsProtocol);
         }
+        _logger.LogDebug("<- TlsAlpnChallengeResponder::OnSslAuthenticate");
     }
 
     /// <summary>
@@ -60,6 +64,7 @@ internal class TlsAlpnChallengeResponder
     /// <param name="keyAuthorization">token to be included in self-signed cert</param>
     public void PrepareChallengeCert(string domainName, string keyAuthorization)
     {
+        _logger.LogDebug($"-> TlsAlpnChallengeResponder::PrepareChallengeCert");
         _logger.LogTrace("Creating ALPN self-signed cert for {domainName} and key authz {keyAuth}",
             domainName, keyAuthorization);
 
@@ -110,14 +115,17 @@ internal class TlsAlpnChallengeResponder
 
         Interlocked.Increment(ref _openChallenges);
         _certificateSelector.AddChallengeCert(cert);
+        _logger.LogDebug($"<- TlsAlpnChallengeResponder::PrepareChallengeCert");
     }
 
     public void DiscardChallenge(string domainName)
     {
+        _logger.LogDebug("-> TlsAlpnChallengeResponder::DiscardChallenge");
         Interlocked.Decrement(ref _openChallenges);
 
         _logger.LogTrace("Clearing ALPN cert for {domainName}", domainName);
 
         _certificateSelector.ClearChallengeCert(domainName);
+        _logger.LogDebug("<- TlsAlpnChallengeResponder::DiscardChallenge");
     }
 }
