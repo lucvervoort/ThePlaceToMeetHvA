@@ -43,10 +43,16 @@ namespace ThePlaceToMeet.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var corsOrigins = builder.Configuration["App:CorsOrigins"];
+            var corsActive = builder.Configuration.GetValue<bool>("App:CorsActive");
+            var letsEncryptActive = builder.Configuration.GetValue<bool>("App:LetsEncrypt");
+
             // netstat -plnt
             // to enable listening on 0.0.0.0 instead of 127.0.0.1: see launchSettings.json
 
+            if(letsEncryptActive)
             {
+                Console.WriteLine("LetsEncrypt is active");
                 // This example shows how to configure Kestrel's client certificate requirements along with
                 // enabling Lettuce Encrypt's certificate automation.
                 {
@@ -75,6 +81,10 @@ namespace ThePlaceToMeet.WebApi
                     });
                 }
                 */
+            }
+            else
+            {
+                Console.WriteLine("LetsEncrypt not active");
             }
 
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
@@ -115,7 +125,10 @@ namespace ThePlaceToMeet.WebApi
                  options.UseSqlServer(connectionString, b => b.EnableRetryOnFailure()));
             }
 
-            builder.Services.AddLettuceEncrypt();
+            if (letsEncryptActive)
+            {
+                builder.Services.AddLettuceEncrypt();
+            }
 
             // SignalR:
             builder.Services.AddSignalR(o =>
@@ -123,8 +136,6 @@ namespace ThePlaceToMeet.WebApi
                 o.EnableDetailedErrors = true;
             });
 
-            var corsOrigins = builder.Configuration["App:CorsOrigins"];
-            var corsActive = builder.Configuration.GetValue<bool>("App:CorsActive");
             // var corsActive =  corsActiveString.Equals("true") ? true : false;
             if (corsActive)
             {
