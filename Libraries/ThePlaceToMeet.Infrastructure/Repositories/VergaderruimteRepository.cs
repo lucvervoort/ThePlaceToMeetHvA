@@ -4,6 +4,7 @@ using ThePlaceToMeet.Contracts.Interfaces;
 
 namespace ThePlaceToMeet.Infrastructure.Repositories
 {
+
     public class VergaderruimteRepository : IMeetingRoomRepository 
     {
         private readonly RepositoryDbContext _context;

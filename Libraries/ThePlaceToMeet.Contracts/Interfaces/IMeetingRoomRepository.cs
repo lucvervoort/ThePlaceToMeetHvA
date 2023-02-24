@@ -2,6 +2,7 @@
 
 namespace ThePlaceToMeet.Contracts.Interfaces
 {
+
     public interface IMeetingRoomRepository
     {
         #region Synchronous

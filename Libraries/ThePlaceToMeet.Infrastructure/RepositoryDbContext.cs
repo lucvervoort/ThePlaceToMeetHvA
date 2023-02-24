@@ -10,6 +10,7 @@ namespace ThePlaceToMeet.Infrastructure
         public DbSet<Contracts.DTO.Customer> Klanten { get; set; }
         public DbSet<Contracts.DTO.MeetingRoom> Vergaderruimtes { get; set; }
         public DbSet<Contracts.DTO.Discount> Kortingen { get; set; }
+        public DbSet<Contracts.DTO.Reservation> Reservaties { get; set; }
 
         public RepositoryDbContext(DbContextOptions<RepositoryDbContext> options)
             : base(options)

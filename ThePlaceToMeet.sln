@@ -46,6 +46,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LettuceEncrypt", "Libraries
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McMaster.AspNetCore.Kestrel.Certificates", "Libraries\LettuceEncrypt\src\Kestrel.Certificates\McMaster.AspNetCore.Kestrel.Certificates.csproj", "{F31EF610-2584-4D5D-9606-7D827B514174}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "theplacetomeet.react.app", "Apps\theplacetomeet.react.app\theplacetomeet.react.app.esproj", "{D4254474-A535-47F7-A95F-F610DA409B30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,12 @@ Global
 		{F31EF610-2584-4D5D-9606-7D827B514174}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F31EF610-2584-4D5D-9606-7D827B514174}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F31EF610-2584-4D5D-9606-7D827B514174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4254474-A535-47F7-A95F-F610DA409B30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4254474-A535-47F7-A95F-F610DA409B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4254474-A535-47F7-A95F-F610DA409B30}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D4254474-A535-47F7-A95F-F610DA409B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4254474-A535-47F7-A95F-F610DA409B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4254474-A535-47F7-A95F-F610DA409B30}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +121,7 @@ Global
 		{E07C7B8D-3B1D-4236-979E-A5B1ACEC8EF1} = {3ED96EA9-DD8D-4D02-BF80-879635DF420C}
 		{51059A47-0B03-43F2-92C9-4DD24B22EBA2} = {02C2AF61-9DEC-4ADC-ABB3-ED4FC98718CF}
 		{F31EF610-2584-4D5D-9606-7D827B514174} = {02C2AF61-9DEC-4ADC-ABB3-ED4FC98718CF}
+		{D4254474-A535-47F7-A95F-F610DA409B30} = {9EF193EA-C2A8-4531-8D65-2CD8EE553F8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72D70814-37AD-4ED4-A758-54C103C37C69}

@@ -25,7 +25,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
         }
 
         // TODO: ?limit=20        
-        [HttpGet(Name = "Customer::Customers")]
+        [HttpGet(Name = "CustomerController::Customers")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Customer>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -43,7 +43,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
             return Ok(klanten);
         }
 
-        [HttpGet("{email}", Name = "Customer::GetByEmail")]
+        [HttpGet("{email}", Name = "CustomerController::GetByEmail")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Customer))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -60,7 +60,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
             return Ok(customer);
         }
 
-        [HttpPost(Name = "Customer::Add")]
+        [HttpPost(Name = "CustomerController::Add")]
         // No anonymous to prevent flooding of db
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,7 +76,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
             }
             catch(Exception e)
             {
-                _logger?.LogError($"<- KlantController::Add ({e.Message})");
+                _logger?.LogError($"<- CustomerController::Add ({e.Message})");
             }
             _logger?.LogDebug("<- CustomerController::GetByEmail (Bad request)");
             return BadRequest();

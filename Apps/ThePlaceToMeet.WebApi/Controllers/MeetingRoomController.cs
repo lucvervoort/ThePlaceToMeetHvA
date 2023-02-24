@@ -6,7 +6,6 @@ using ThePlaceToMeet.Contracts.Interfaces;
 
 namespace ThePlaceToMeet.WebApi.Controllers
 {
-
     [ApiController]
 #if ProducesConsumes
     [Produces(MediaTypeNames.Application.Json)]
@@ -25,25 +24,25 @@ namespace ThePlaceToMeet.WebApi.Controllers
             _meetingRoomRepository = meetingRoomRepository;
         }
 
-        [HttpGet(Name = "MeetingRoom::MeetingRooms")]
+        [HttpGet(Name = "MeetingRoomController::MeetingRooms")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MeetingRoom>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<MeetingRoom>>> MeetingRooms()
         {
-            _logger?.LogDebug("-> Vergaderruimte::MeetingRooms");
-            // TODO LVET: var vergaderuimte = await _meetingRoomRepository.GetAsync();
+            _logger?.LogDebug("-> MeetingRoomController::MeetingRooms");
+            // TODO LVET: var vergaderuimte = await _reservationRepository.GetAsync();
             var meetingRooms = _meetingRoomRepository.GetAll();
             if (meetingRooms == null)
             {
-                _logger?.LogDebug("<- Vergaderruimte::MeetingRooms (FAIL)");
+                _logger?.LogDebug("<- MeetingRoomController::MeetingRooms (FAIL)");
                 return NotFound(new List<MeetingRoom>());
             }
-            _logger?.LogDebug("<- Vergaderruimte::MeetingRooms (OK)");
+            _logger?.LogDebug("<- MeetingRoomController::MeetingRooms (OK)");
             return Ok(meetingRooms);
         }
 
-        [HttpGet("max/{maxAantalPersonen:int}", Name = "MeetingRoom::GetByMaxNumberOfPersons")]
+        [HttpGet("max/{maxAantalPersonen:int}", Name = "MeetingRoomController::GetByMaxNumberOfPersons")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<MeetingRoom>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -60,7 +59,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
             return Ok(meetingrooms);
         }
 
-        [HttpGet("{id:int}", Name = "MeetingRoom::GetById")]
+        [HttpGet("{id:int}", Name = "MeetingRoomController::GetById")]
         [AllowAnonymous]        
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeetingRoom))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

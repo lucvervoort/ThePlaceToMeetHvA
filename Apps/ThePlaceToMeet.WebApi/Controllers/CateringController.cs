@@ -30,7 +30,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Catering>>> Caterings()
         {
-            _logger?.LogDebug("-> CateringController::Caterings");
+            _logger?.LogDebug("-> CustomerController::Caterings");
             // TODO LVET: var vergaderuimte = await _vergaderruimteRepository.GetAsync();
             var cateringItems = _cateringRepository.GetAll();
             if (cateringItems == null)
@@ -42,7 +42,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
             return Ok(cateringItems);
         }
 
-        [HttpGet("{id:int}", Name = "Catering::GetBy")]
+        [HttpGet("{id:int}", Name = "CustomerController::GetBy")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Catering))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

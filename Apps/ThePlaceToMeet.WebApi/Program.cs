@@ -50,7 +50,10 @@ namespace ThePlaceToMeet.WebApi
             // netstat -plnt
             // to enable listening on 0.0.0.0 instead of 127.0.0.1: see launchSettings.json
 
-            if(letsEncryptActive)
+            // https://adamtheautomator.com/cloudflare-ssl/
+            // https://www.hanselman.com/blog/ASPNETCoreLetsEncryptAndCloudflareSSLWithACustomDomain.aspx
+
+            if (letsEncryptActive)
             {
                 Console.WriteLine("LetsEncrypt is active");
                 // This example shows how to configure Kestrel's client certificate requirements along with
@@ -165,6 +168,7 @@ namespace ThePlaceToMeet.WebApi
             }
 
             builder.Services.AddScoped<IMeetingRoomRepository, VergaderruimteRepository>();
+            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
             builder.Services.AddScoped<ICustomerRepository, KlantRepository>();
             builder.Services.AddScoped<ICateringRepository, CateringRepository>();
             builder.Services.AddScoped<IDiscountRepository, KortingRepository>();
