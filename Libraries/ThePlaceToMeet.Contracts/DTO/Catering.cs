@@ -1,11 +1,15 @@
 ﻿namespace ThePlaceToMeet.Contracts.DTO
 {
-    // Protected against usage of EF
-    public class Catering
+    public partial class Catering
     {
         public int Id { get; set; }
-        public string? Titel { get; set; }
-        public string? Beschrijving { get; set; }
+
+        public string Titel { get; set; } = null!;
+
+        public string Beschrijving { get; set; } = null!;
+
         public decimal PrijsPerPersoon { get; set; }
+
+        public virtual ICollection<Reservation> Reservaties { get; } = new List<Reservation>();
     }
 }

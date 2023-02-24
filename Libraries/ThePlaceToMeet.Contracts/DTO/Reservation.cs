@@ -1,18 +1,37 @@
 ﻿namespace ThePlaceToMeet.Contracts.DTO
 {
-    public class Reservation
+    public partial class Reservation
     {
         public int Id { get; set; }
+
         public int AantalPersonen { get; set; }
+
         public DateTime Dag { get; set; }
+
         public int BeginUur { get; set; }
+
         public int DuurInUren { get; set; }
-        public int Tot => BeginUur + DuurInUren;
-        public decimal PrijsPerUur { get; set; } //prijs voor huur vergaderruimte per uur op het moment van de reservatie, nog zonder de korting
-        public decimal PrijsPerPersoonStandaardCatering { get; set; } //prijs voor de standaardcatering (koffie, thee, water) per persoon op het moment van de reservatie. 0 als geen standaardcatering wordt aangevraagd
-        public decimal PrijsPerPersoonCatering { get; set; } //prijs voor de catering per persoon op het moment van de reservatie, indien voorzien, anders 0. 
-        public Catering? Catering { get; set; }
-        public Discount? Discount { get; set; }
-        public MeetingRoom? MeetingRoom { get; set; }
+
+        public decimal PrijsPerUur { get; set; }
+
+        public decimal PrijsPerPersoonStandaardCatering { get; set; }
+
+        public decimal PrijsPerPersoonCatering { get; set; }
+
+        public int? CateringId { get; set; }
+
+        public int? KortingId { get; set; }
+
+        public int VergaderruimteId { get; set; }
+
+        public int KlantId { get; set; }
+
+        public virtual Catering? Catering { get; set; }
+
+        public virtual Customer Klant { get; set; } = null!;
+
+        public virtual Discount? Korting { get; set; }
+
+        public virtual MeetingRoom Vergaderruimte { get; set; } = null!;
     }
 }

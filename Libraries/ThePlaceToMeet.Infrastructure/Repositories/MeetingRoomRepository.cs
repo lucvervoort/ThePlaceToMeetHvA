@@ -5,12 +5,12 @@ using ThePlaceToMeet.Contracts.Interfaces;
 namespace ThePlaceToMeet.Infrastructure.Repositories
 {
 
-    public class VergaderruimteRepository : IMeetingRoomRepository 
+    public class MeetingRoomRepository : IMeetingRoomRepository 
     {
         private readonly RepositoryDbContext _context;
         private readonly DbSet<Contracts.DTO.MeetingRoom> _meetingRooms;
 
-        public VergaderruimteRepository(RepositoryDbContext context) 
+        public MeetingRoomRepository(RepositoryDbContext context) 
         {
             _context = context;
             _meetingRooms = _context.Vergaderruimtes;

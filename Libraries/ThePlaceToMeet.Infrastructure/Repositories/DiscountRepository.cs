@@ -4,12 +4,12 @@ using ThePlaceToMeet.Contracts.Interfaces;
 
 namespace ThePlaceToMeet.Infrastructure.Repositories
 {
-    public class KortingRepository : IDiscountRepository
+    public class DiscountRepository : IDiscountRepository
     {
         private readonly RepositoryDbContext _context;
         private readonly DbSet<Contracts.DTO.Discount> _discounts;
 
-        public KortingRepository(RepositoryDbContext context)
+        public DiscountRepository(RepositoryDbContext context)
         {
             _context = context;
             _discounts = _context.Kortingen;
@@ -23,7 +23,7 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
 
         public IEnumerable<Contracts.DTO.Discount> GetAll()
         {
-            return _discounts.OrderBy(t => t.MinimumReservationsInAYear).ToList();
+            return _discounts.OrderBy(t => t.MinimumAantalReservatiesInJaar).ToList();
         }
 
         public Contracts.DTO.Discount? GetById(int id)

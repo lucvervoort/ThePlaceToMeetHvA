@@ -167,11 +167,11 @@ namespace ThePlaceToMeet.WebApi
                 });
             }
 
-            builder.Services.AddScoped<IMeetingRoomRepository, VergaderruimteRepository>();
+            builder.Services.AddScoped<IMeetingRoomRepository, MeetingRoomRepository>();
             builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
-            builder.Services.AddScoped<ICustomerRepository, KlantRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<ICateringRepository, CateringRepository>();
-            builder.Services.AddScoped<IDiscountRepository, KortingRepository>();
+            builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
            
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

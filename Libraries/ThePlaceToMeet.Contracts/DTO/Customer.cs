@@ -1,34 +1,33 @@
 ﻿namespace ThePlaceToMeet.Contracts.DTO
 {
-    public class Customer
+    public partial class Customer
     {
-        #region Properties
         public int Id { get; set; }
-        public string? Email { get; set; }
-        public string? LastName { get; set; }
-        public string? FirstName { get; set; }
-        public string? Mobile { get; set; }
-        public string? Company { get; set; }
-        //public List<int> ReservationIds { get; set; }
-        public List<Reservation> Reservations { get; private set; }
 
-        private readonly static List<Reservation> _reservations = new();
-        #endregion
+        public string Email { get; set; } = null!;
+
+        public string Naam { get; set; } = null!;
+
+        public string Voornaam { get; set; } = null!;
+
+        public string? Gsm { get; set; }
+
+        public string? Bedrijf { get; set; }
+
+        public virtual ICollection<Reservation> Reservaties { get; } = new List<Reservation>();
 
         #region Constructors and methods
         public Customer()
         {
             //ReservationIds = new List<int>();
-            Reservations = new List<Reservation>();
+            Reservaties = new List<Reservation>();
         }
 
         public void VoegReservatieToe(Reservation reservation)
         {
-            Reservations.Add(reservation);
-            //ReservationIds.Add(reservatie.Id);
-            if (_reservations != null && !_reservations.Contains(reservation))
+            if (Reservaties != null && !Reservaties.Contains(reservation))
             {
-                _reservations.Add(reservation);
+                Reservaties.Add(reservation);
             }
         }
         #endregion

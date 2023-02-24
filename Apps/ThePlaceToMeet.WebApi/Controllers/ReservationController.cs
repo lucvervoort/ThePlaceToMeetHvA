@@ -19,10 +19,10 @@ namespace ThePlaceToMeet.WebApi.Controllers
         private readonly ILogger<ReservationController> _logger;
         private readonly IReservationRepository _reservationRepository;
 
-        public ReservationController(ILogger<ReservationController> logger, IReservationRepository meetingRoomRepository)
+        public ReservationController(ILogger<ReservationController> logger, IReservationRepository reservationRepository)
         {
             _logger = logger;
-            _reservationRepository = meetingRoomRepository;
+            _reservationRepository = reservationRepository;
         }
 
         [HttpGet(Name = "ReservationController::Reservations")]
@@ -50,14 +50,14 @@ namespace ThePlaceToMeet.WebApi.Controllers
         public async Task<ActionResult<Reservation>> GetById(int id)
         {
             _logger?.LogDebug("-> ReservationController::GetById");
-            var meetingRoom = _reservationRepository.GetById(id);
-            if (meetingRoom == null)
+            var reservation = _reservationRepository.GetById(id);
+            if (reservation == null)
             {
                 _logger?.LogDebug("<- ReservationController::GetById (Not found)");
                 return NotFound();
             }
             _logger?.LogDebug("<- ReservationController::GetById");
-            return Ok(meetingRoom);
+            return Ok(reservation);
         }
     }
 }

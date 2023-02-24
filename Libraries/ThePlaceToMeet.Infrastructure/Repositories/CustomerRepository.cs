@@ -3,12 +3,12 @@ using ThePlaceToMeet.Contracts.Interfaces;
 
 namespace ThePlaceToMeet.Infrastructure.Repositories
 {
-    public class KlantRepository: ICustomerRepository
+    public class CustomerRepository: ICustomerRepository
     {
         private readonly RepositoryDbContext _context;
         private readonly DbSet<Contracts.DTO.Customer> _klanten;
 
-        public KlantRepository(RepositoryDbContext context)
+        public CustomerRepository(RepositoryDbContext context)
         {
             _context = context;
             _klanten = _context.Klanten;
@@ -27,7 +27,7 @@ namespace ThePlaceToMeet.Infrastructure.Repositories
 
         public Contracts.DTO.Customer GetByEmail(string email)
         {
-            return _klanten.Include(t => t.Reservations).ThenInclude(t => t.Catering).Include(t => t.Reservations).ThenInclude(t => t.MeetingRoom).FirstOrDefault(t => t.Email == email);
+            return _klanten.Include(t => t.Reservaties).ThenInclude(t => t.Catering).Include(t => t.Reservaties).ThenInclude(t => t.Vergaderruimte).FirstOrDefault(t => t.Email == email);
         }
 
         public void SaveChanges()
