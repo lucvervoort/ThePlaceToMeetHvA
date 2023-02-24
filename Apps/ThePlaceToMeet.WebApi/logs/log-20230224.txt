@@ -4528,3 +4528,26 @@ System.InvalidOperationException: The entity type 'IdentityUserLogin<string>' re
 2023-02-24 16:00:18.013 +01:00 [INF] Executed endpoint 'ThePlaceToMeet.WebApi.Controllers.ReservationController.Reservations (ThePlaceToMeet.WebApi)'
 2023-02-24 16:00:18.015 +01:00 [INF] HTTP GET /Reservation/ responded 200 in 54.6276 ms
 2023-02-24 16:00:18.017 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/Reservation/ - - - 200 - application/json;+charset=utf-8 73.0405ms
+2023-02-24 17:06:55.853 +01:00 [INF] ThePlaceToMeet API is starting...
+2023-02-24 17:06:56.029 +01:00 [INF] Connection string: server=localhost;port=3306;user=root;password=ZwarteRidder007;database=theplacetomeet
+2023-02-24 17:06:56.058 +01:00 [INF] Local IP: 192.168.32.1
+2023-02-24 17:06:56.061 +01:00 [INF] Development mode: setting up swagger...
+2023-02-24 17:06:56.072 +01:00 [INF] Setting up headers...
+2023-02-24 17:06:56.686 +01:00 [INF] Now listening on: https://0.0.0.0:7045
+2023-02-24 17:06:56.690 +01:00 [INF] Now listening on: http://0.0.0.0:5204
+2023-02-24 17:06:56.692 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-02-24 17:06:56.694 +01:00 [INF] Hosting environment: Development
+2023-02-24 17:06:56.695 +01:00 [INF] Content root path: C:\Users\u2389\source\repos\ThePlaceToMeetHvA\Apps\ThePlaceToMeet.WebApi
+2023-02-24 17:07:32.970 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7045/Reservation/ - -
+2023-02-24 17:07:33.097 +01:00 [INF] CORS policy execution successful.
+2023-02-24 17:07:33.103 +01:00 [INF] Executing endpoint 'ThePlaceToMeet.WebApi.Controllers.ReservationController.Reservations (ThePlaceToMeet.WebApi)'
+2023-02-24 17:07:33.136 +01:00 [INF] Route matched with {action = "Reservations", controller = "Reservation"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[ThePlaceToMeet.Contracts.DTO.Reservation]]] Reservations() on controller ThePlaceToMeet.WebApi.Controllers.ReservationController (ThePlaceToMeet.WebApi).
+2023-02-24 17:07:33.613 +01:00 [INF] Executing action method ThePlaceToMeet.WebApi.Controllers.ReservationController.Reservations (ThePlaceToMeet.WebApi) - Validation state: "Valid"
+2023-02-24 17:07:33.618 +01:00 [DBG] -> ReservationController::Reservations
+2023-02-24 17:07:35.068 +01:00 [DBG] <- ReservationController::Reservations (OK)
+2023-02-24 17:07:35.074 +01:00 [INF] Executed action method ThePlaceToMeet.WebApi.Controllers.ReservationController.Reservations (ThePlaceToMeet.WebApi), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1454.4073ms.
+2023-02-24 17:07:35.082 +01:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ThePlaceToMeet.Contracts.DTO.Reservation, ThePlaceToMeet.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2023-02-24 17:07:35.141 +01:00 [INF] Executed action ThePlaceToMeet.WebApi.Controllers.ReservationController.Reservations (ThePlaceToMeet.WebApi) in 1995.5084ms
+2023-02-24 17:07:35.148 +01:00 [INF] Executed endpoint 'ThePlaceToMeet.WebApi.Controllers.ReservationController.Reservations (ThePlaceToMeet.WebApi)'
+2023-02-24 17:07:35.151 +01:00 [INF] HTTP GET /Reservation/ responded 200 in 2059.6595 ms
+2023-02-24 17:07:35.168 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7045/Reservation/ - - - 200 - application/json;+charset=utf-8 2200.7694ms

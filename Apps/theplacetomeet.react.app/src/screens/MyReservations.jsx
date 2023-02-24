@@ -8,7 +8,7 @@ const MyReservationsView = () => {
         const response = await fetch(
             "https://localhost:7045/Reservation/"
       ).then((response) => response.json());
-      console.log(response);
+        console.log(response);
         setReservations(response);
     }
 
