@@ -6,7 +6,7 @@ const MyReservationsView = () => {
   // Function to collect data
   const getReservations = async () => {
         const response = await fetch(
-            "https://localhost:7045/Reservation/"
+            "https://demo.alles-online.be:7045/Reservation/"
       ).then((response) => response.json());
         console.log(response);
         setReservations(response);
