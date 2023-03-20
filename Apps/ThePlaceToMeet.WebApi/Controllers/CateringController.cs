@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using ThePlaceToMeet.Contracts.DTO;
 using ThePlaceToMeet.Contracts.Interfaces;
@@ -11,8 +10,7 @@ namespace ThePlaceToMeet.WebApi.Controllers
     [Produces(MediaTypeNames.Application.Json)]
     [Consumes(MediaTypeNames.Application.Json)]
 #endif
-    [Authorize]
-    [Route("[controller]")]
+    [Route("[controller]")]   
     public class CateringController : ControllerBase
     {
         private readonly ILogger<CateringController> _logger;
@@ -25,12 +23,11 @@ namespace ThePlaceToMeet.WebApi.Controllers
         }
 
         [HttpGet(Name = "Catering::Caterings")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Catering>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<Catering>>> Caterings()
         {
-            _logger?.LogDebug("-> CustomerController::Caterings");
+            _logger?.LogDebug("-> CateringController::Caterings");
             // TODO LVET: var vergaderuimte = await _vergaderruimteRepository.GetAsync();
             var cateringItems = _cateringRepository.GetAll();
             if (cateringItems == null)
@@ -42,43 +39,15 @@ namespace ThePlaceToMeet.WebApi.Controllers
             return Ok(cateringItems);
         }
 
-        [HttpGet("{id:int}", Name = "CustomerController::GetBy")]
-        [AllowAnonymous]
+        [HttpGet("{id:int}", Name = "Catering::GetBy")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Catering))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Catering>> GetBy(int id)
         {
-            _logger?.LogDebug("-> CateringController::GetBy");
             var catering = _cateringRepository.GetBy(id);
             if (catering == null)
-            {
-                _logger?.LogDebug("<- CateringController::GetBy (not found)");
                 return NotFound();
-            }
-            _logger?.LogDebug("<- CateringController::GetBy");
-            return Ok(catering);
-        }
-
-        [HttpPost(Name = "Catering::Add")]
-        // No anonymous to prevent flooding of db
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Add(Catering catering)
-        {
-            _logger?.LogDebug("-> CateringController::Add");
-            try
-            {
-                _cateringRepository.Add(catering);
-                _cateringRepository.SaveChanges();
-                _logger?.LogDebug("<- CateringController::Add");
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger?.LogError($"<- CateringController::Add ({e.Message})");
-            }
-            _logger?.LogDebug("<- CateringController::Add (bad request)");
-            return BadRequest();
+            return Ok(new Catering());
         }
     }
 }

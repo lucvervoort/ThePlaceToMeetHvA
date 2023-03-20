@@ -47,10 +47,10 @@ namespace ThePlaceToMeet
             _services.AddDefaultIdentity<Infrastructure.DTO.ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<RepositoryDbContext>();
 
-            _services.AddScoped<IMeetingRoomRepository, MeetingRoomRepository>();
-            _services.AddScoped<ICustomerRepository, CustomerRepository>();
+            _services.AddScoped<IMeetingRoomRepository, VergaderruimteRepository>();
+            _services.AddScoped<ICustomerRepository, KlantRepository>();
             _services.AddScoped<ICateringRepository, CateringRepository>();
-            _services.AddScoped<IDiscountRepository, DiscountRepository>();
+            _services.AddScoped<IDiscountRepository, KortingRepository>();
             _services.AddScoped<ApplicationDataInitializer>();
             _services.AddScoped<KlantFilter>();
 

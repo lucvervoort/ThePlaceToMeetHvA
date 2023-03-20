@@ -225,14 +225,22 @@
         "operationId": "MeetingRoomGetByMaxAantalPersonen",
         "parameters": [
           {
-            "name": "maxNumberOfPersons",
+            "name": "maaxNumberOfPersons",
             "in": "query",
             "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
             }
-          }
+          },
+          {
+            "name": "maxAantalPersonen",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

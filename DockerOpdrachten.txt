@@ -3,5 +3,3 @@ docker images
 docker run -ti --rm -p 7045:80 theplacetomeet.webapi --add-host host.docker.internal:host-gateway
 
 Seq logging: http://localhost:5341/#/events
-
-docker build ... --platform linux/amd64,linux/arm64,linux/arm/v7

@@ -9,32 +9,64 @@ using ThePlaceToMeet.Contracts.Interfaces;
 using ThePlaceToMeet.Infrastructure;
 using ThePlaceToMeet.Infrastructure.Repositories;
 using ThePlaceToMeet.WebApi.Hubs;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
+// For Kestrel info:
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+/*
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.SwaggerGen;
+*/
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 #endif
 
 namespace ThePlaceToMeet.WebApi
 {
+    /*
+    public class AuthorizeCheckOperationFilter : IOperationFilter
+    {
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        {
+            var hasAuthorize =
+              context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any()
+              || context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
+
+            if (hasAuthorize)
+            {
+                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
+                operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
+
+                operation.Security = new List<OpenApiSecurityRequirement>
+            {
+                new OpenApiSecurityRequirement
+                {
+                    [
+                        new OpenApiSecurityScheme {Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "oauth2"}
+                        }
+                    ] = new[] {"test.api"}
+                }
+            };
+
+            }
+        }
+    }
+    */
+
     public class Program
     {
         public static string GetLocalIPAddress()
         {
-            string ipName = null;
-            var hostName = Dns.GetHostName();
-            Console.WriteLine("Host name: " + hostName);
-            var host = Dns.GetHostEntry(hostName);
+            var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    ipName = ip.ToString();
-                    Console.WriteLine("Found IP: " + ipName);
+                    return ip.ToString();
                 }
-            }
-            if(!string.IsNullOrEmpty(ipName))
-            {
-                return ipName;
             }
             throw new Exception("No network adapters with an IPv4 address.");
         }
@@ -43,94 +75,38 @@ namespace ThePlaceToMeet.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var corsOrigins = builder.Configuration["App:CorsOrigins"];
-            var corsActive = builder.Configuration.GetValue<bool>("App:CorsActive");
-            var letsEncryptActive = builder.Configuration.GetValue<bool>("App:LetsEncrypt");
-
-            // netstat -plnt
-            // to enable listening on 0.0.0.0 instead of 127.0.0.1: see launchSettings.json
-
-            // https://adamtheautomator.com/cloudflare-ssl/
-            // https://www.hanselman.com/blog/ASPNETCoreLetsEncryptAndCloudflareSSLWithACustomDomain.aspx
-
-            if (letsEncryptActive)
-            {
-                Console.WriteLine("LetsEncrypt is active");
-                // This example shows how to configure Kestrel's client certificate requirements along with
-                // enabling Lettuce Encrypt's certificate automation.
-                {
-                    builder.WebHost.UseKestrel(kestrel =>
-                    {
-                        var appServices = kestrel.ApplicationServices;
-                        kestrel.ConfigureHttpsDefaults(h =>
-                        {
-                            h.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
-                            h.UseLettuceEncrypt(appServices);
-                        });
-                    });
-                }
-
-                /*
-                // This example shows how to configure Kestrel's address/port binding along with
-                // enabling Lettuce Encrypt's certificate automation.
-                {
-                    builder.WebHost.PreferHostingUrls(false);
-                    builder.WebHost.UseKestrel(kestrel =>
-                    {                        
-                        var appServices = kestrel.ApplicationServices;
-                        kestrel.Listen(IPAddress.Any, 7045,
-                            o =>
-                                o.UseHttps(h => h.UseLettuceEncrypt(appServices)));
-                    });
-                }
-                */
-            }
-            else
-            {
-                Console.WriteLine("LetsEncrypt not active");
-            }
-
             builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName()
                 .Enrich.FromLogContext()
                 .Enrich.WithProperty("Version", "1.0.0")
                 .ReadFrom.Configuration(ctx.Configuration));
-                                 
+
             var sqlServer = builder.Configuration.GetValue<bool>("App:SQLServer");
-            var hsTs = builder.Configuration.GetValue<bool>("App:HsTs");
             var docker = builder.Configuration.GetValue<bool>("App:Docker");
-            var connectionStringName = "DefaultConnection";
-            var connectionString = "";
+            var connectionString = docker ? builder.Configuration.GetConnectionString("DefaultConnectionDocker") : builder.Configuration.GetConnectionString("DefaultConnection");
             if (!sqlServer)
             {
-                connectionStringName = "DefaultMySQLConnection";
-                if (docker) connectionStringName += "Docker";
-                connectionString = builder.Configuration.GetConnectionString(connectionStringName);
+                connectionString = docker ? builder.Configuration.GetConnectionString("DefaultMySQLConnectionDocker") : builder.Configuration.GetConnectionString("DefaultMySQLConnection");
 
                 var serverVersion = new MySqlServerVersion(new Version(8, 0, 31));
 
                 // Add services to the container.
                 builder.Services.AddDbContext<RepositoryDbContext>(options =>
                     options.UseMySql(connectionString, serverVersion)
-                    .UseLoggerFactory(LoggerFactory.Create(b => b
-                        .AddFilter(level => level >= LogLevel.Information)))
+                    .UseLoggerFactory(LoggerFactory.Create(b => b.AddFilter(level => level >= LogLevel.Information)))
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors()
                 );
+
+                Console.WriteLine("Logged on to MySQL: " + connectionString);
             }
             else
             {
-                if (docker) connectionStringName += "Docker";
-                connectionString = builder.Configuration.GetConnectionString(connectionStringName);
                 // Add services to the container.
                 builder.Services.AddDbContext<RepositoryDbContext>(options =>
                  options.UseSqlServer(connectionString, b => b.EnableRetryOnFailure()));
-            }
-
-            if (letsEncryptActive)
-            {
-                builder.Services.AddLettuceEncrypt();
+                Console.WriteLine("Logged on to SQLServer: " + connectionString);
             }
 
             // SignalR:
@@ -139,10 +115,11 @@ namespace ThePlaceToMeet.WebApi
                 o.EnableDetailedErrors = true;
             });
 
+            var corsOrigins = builder.Configuration["App:CorsOrigins"];
+            var corsActive = builder.Configuration.GetValue<bool>("App:CorsActive");
             // var corsActive =  corsActiveString.Equals("true") ? true : false;
             if (corsActive)
             {
-                Console.WriteLine("Cors active");
                 // Adding CORS Policy
                 builder.Services.AddCors(options =>
                 {
@@ -157,27 +134,59 @@ namespace ThePlaceToMeet.WebApi
                         else
                         */
                             builder.AllowAnyOrigin()
-                                .AllowAnyHeader()
-                                .AllowAnyMethod()
-                                //.WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
-                                //.WithHeaders("authorization", "accept", "content-type", "origin")
-                                //.AllowCredentials()
-                                .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                       //.WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
+                       //.WithHeaders("authorization", "accept", "content-type", "origin")
+                       //.AllowCredentials()
+                       .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
                     });
                 });
             }
 
-            builder.Services.AddScoped<IMeetingRoomRepository, MeetingRoomRepository>();
-            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
-            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            /*
+            // Identity Server:
+            builder.Services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", opt =>
+                {
+                    opt.RequireHttpsMetadata = false;
+                    opt.Authority = "https://localhost:5005";
+                    opt.Audience = "test.api";                   
+                });
+            */
+            builder.Services.AddScoped<IMeetingRoomRepository, VergaderruimteRepository>();
+            builder.Services.AddScoped<ICustomerRepository, KlantRepository>();
             builder.Services.AddScoped<ICateringRepository, CateringRepository>();
-            builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
-           
+            builder.Services.AddScoped<IDiscountRepository, KortingRepository>();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            
-            var app = builder.Build();            
+            builder.Services.AddSwaggerGen(/* options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Protected API", Version = "v1" });
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("https://localhost:5005/connect/authorize"),
+                            TokenUrl = new Uri("https://localhost:5005/connect/token"),                            
+                            Scopes = new Dictionary<string, string>
+                            {
+                                {"test.api", "ThePlaceToMeet API V1"}
+                            }
+                        }
+                    }
+                });
+                options.OperationFilter<AuthorizeCheckOperationFilter>();
+            }*/);
+
+            var app = builder.Build();
+
+            IServerAddressesFeature? addressFeature = null;
+            app.MapGet("/", () => $"Hi there, Kestrel is running on\n\n{string.Join("\n", addressFeature?.Addresses.ToArray())} ");
 
             app.Logger.LogInformation("ThePlaceToMeet API is starting...");
             app.Logger.LogInformation("Connection string: " + connectionString);
@@ -188,18 +197,26 @@ namespace ThePlaceToMeet.WebApi
             {
                 app.Logger.LogInformation("Development mode: setting up swagger...");
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(
+                /* options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ThePlaceToMeet API V1");
+
+                    options.OAuthAppName("ThePlaceToMeet API - Swagger");
+                    options.OAuthClientId("interactive.public");
+                    options.OAuthClientSecret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0");
+                    options.OAuthScopeSeparator(" ");
+                    options.OAuth2RedirectUrl("https://localhost:5005/Account/Login");                        
+                    //options.OAuthUseBasicAuthenticationWithAccessCodeGrant();
+                    options.OAuthUsePkce();
+                }*/
+                );
             }
-            else if(hsTs)
+            else
             {
-                app.Logger.LogInformation("Release: HSTS (https)");
+                app.Logger.LogInformation(("Not in development mode: not setting up swagger en using HSTS"));
                 app.UseHsts(); // https
             }
-            else if(app.Environment.IsProduction())
-            {
-                app.Logger.LogInformation("Production mode");
-            }
-            
 
             app.Logger.LogInformation("Setting up headers...");
             UseHeadersMiddleware(app);
@@ -209,8 +226,14 @@ namespace ThePlaceToMeet.WebApi
 
             app.UseSerilogRequestLogging();
 
+            app.Logger.LogInformation("Using HTTPS redirection...");
             app.UseHttpsRedirection();
 
+
+            /*
+            // For Identity Server:
+            app.UseAuthentication();
+            */
             app.UseAuthorization();
 
             // SignalR:
@@ -220,7 +243,23 @@ namespace ThePlaceToMeet.WebApi
 
             app.UseCors("AllowOrigin");
 
-            app.Run();
+            // Replace app.Run() for Kestrel info:
+            // app.Run();
+
+            app.Start();
+
+            var server = app.Services.GetService<IServer>();
+            addressFeature = server?.Features.Get<IServerAddressesFeature>();
+
+            if (addressFeature?.Addresses != null)
+            {
+                foreach (var address in addressFeature.Addresses)
+                {
+                    Console.WriteLine("Kestrel is listening on address: " + address);
+                }
+            }
+
+            app.WaitForShutdown();
         }
 
         private static void UseHeadersMiddleware(WebApplication app)
@@ -249,3 +288,5 @@ namespace ThePlaceToMeet.WebApi
         }
     }
 }
+// TODO: as Administrator?
+// dotnet dev-certs https –-trust

@@ -1,0 +1,472 @@
+openapi: 3.0.1
+info:
+  title: ThePlaceToMeet.WebApi
+  version: "1.0"
+servers:
+- url: /
+paths:
+  /Catering:
+    get:
+      operationId: Catering::Caterings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Catering'
+                type: array
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      tags:
+      - Catering
+      x-eov-operation-handler: controllers/CateringController
+  /Catering/{id}:
+    get:
+      operationId: Catering::GetBy
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catering'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      tags:
+      - Catering
+      x-eov-operation-handler: controllers/CateringController
+  /Customer:
+    get:
+      operationId: Customer::Customers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Customer'
+                type: array
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      tags:
+      - Customer
+      x-eov-operation-handler: controllers/CustomerController
+    post:
+      operationId: Customer::Add
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        "200":
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Bad Request
+      tags:
+      - Customer
+      x-eov-operation-handler: controllers/CustomerController
+  /Customer/{email}:
+    get:
+      operationId: Customer::GetByEmail
+      parameters:
+      - explode: false
+        in: path
+        name: email
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      tags:
+      - Customer
+      x-eov-operation-handler: controllers/CustomerController
+  /MeetingRoom:
+    get:
+      operationId: MeetingRoom::MeetingRooms
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MeetingRoom'
+                type: array
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      tags:
+      - MeetingRoom
+      x-eov-operation-handler: controllers/MeetingRoomController
+  /MeetingRoom/max/{maxAantalPersonen}:
+    get:
+      operationId: MeetingRoom::GetByMaxAantalPersonen
+      parameters:
+      - explode: true
+        in: query
+        name: maaxNumberOfPersons
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - explode: false
+        in: path
+        name: maxAantalPersonen
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MeetingRoom'
+                type: array
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      tags:
+      - MeetingRoom
+      x-eov-operation-handler: controllers/MeetingRoomController
+  /MeetingRoom/{id}:
+    get:
+      operationId: MeetingRoom::GetById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingRoom'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+          description: Not Found
+      tags:
+      - MeetingRoom
+      x-eov-operation-handler: controllers/MeetingRoomController
+components:
+  schemas:
+    Catering:
+      additionalProperties: false
+      example:
+        beschrijving: beschrijving
+        titel: titel
+        prijsPerPersoon: 6.027456183070403
+        id: 0
+      properties:
+        id:
+          format: int32
+          type: integer
+        titel:
+          nullable: true
+          type: string
+        beschrijving:
+          nullable: true
+          type: string
+        prijsPerPersoon:
+          format: double
+          type: number
+      type: object
+    Customer:
+      additionalProperties: false
+      example:
+        lastName: lastName
+        firstName: firstName
+        reservations:
+        - prijsPerUur: 7.061401241503109
+          meetingRoom:
+            prijsPerUur: 1.4894159098541704
+            vergaderruimteType: null
+            id: 1
+            prijsPerPersoonStandaardCatering: 6.84685269835264
+            naam: naam
+            maximumAantalPersonen: 1
+            reservaties:
+            - null
+            - null
+          aantalPersonen: 1
+          duurInUren: 5
+          prijsPerPersoonCatering: 3.616076749251911
+          tot: 2
+          catering:
+            beschrijving: beschrijving
+            titel: titel
+            prijsPerPersoon: 6.027456183070403
+            id: 0
+          discount:
+            percentage: 4
+            id: 2
+            minimumReservationsInAYear: 7
+          id: 6
+          dag: 2000-01-23T04:56:07.000+00:00
+          prijsPerPersoonStandaardCatering: 9.301444243932576
+          beginUur: 5
+        - prijsPerUur: 7.061401241503109
+          meetingRoom:
+            prijsPerUur: 1.4894159098541704
+            vergaderruimteType: null
+            id: 1
+            prijsPerPersoonStandaardCatering: 6.84685269835264
+            naam: naam
+            maximumAantalPersonen: 1
+            reservaties:
+            - null
+            - null
+          aantalPersonen: 1
+          duurInUren: 5
+          prijsPerPersoonCatering: 3.616076749251911
+          tot: 2
+          catering:
+            beschrijving: beschrijving
+            titel: titel
+            prijsPerPersoon: 6.027456183070403
+            id: 0
+          discount:
+            percentage: 4
+            id: 2
+            minimumReservationsInAYear: 7
+          id: 6
+          dag: 2000-01-23T04:56:07.000+00:00
+          prijsPerPersoonStandaardCatering: 9.301444243932576
+          beginUur: 5
+        mobile: mobile
+        company: company
+        id: 0
+        email: email
+      properties:
+        id:
+          format: int32
+          type: integer
+        email:
+          nullable: true
+          type: string
+        lastName:
+          nullable: true
+          type: string
+        firstName:
+          nullable: true
+          type: string
+        mobile:
+          nullable: true
+          type: string
+        company:
+          nullable: true
+          type: string
+        reservations:
+          items:
+            $ref: '#/components/schemas/Reservation'
+          nullable: true
+          readOnly: true
+          type: array
+      type: object
+    Discount:
+      additionalProperties: false
+      example:
+        percentage: 4
+        id: 2
+        minimumReservationsInAYear: 7
+      properties:
+        id:
+          format: int32
+          type: integer
+        percentage:
+          format: int32
+          type: integer
+        minimumReservationsInAYear:
+          format: int32
+          type: integer
+      type: object
+    MeetingRoom:
+      additionalProperties: false
+      example:
+        prijsPerUur: 1.4894159098541704
+        vergaderruimteType: null
+        id: 1
+        prijsPerPersoonStandaardCatering: 6.84685269835264
+        naam: naam
+        maximumAantalPersonen: 1
+        reservaties:
+        - null
+        - null
+      properties:
+        id:
+          format: int32
+          type: integer
+        naam:
+          nullable: true
+          type: string
+        vergaderruimteType:
+          $ref: '#/components/schemas/MeetingRoomType'
+        maximumAantalPersonen:
+          format: int32
+          type: integer
+        prijsPerUur:
+          format: double
+          type: number
+        prijsPerPersoonStandaardCatering:
+          format: double
+          type: number
+        reservaties:
+          items:
+            $ref: '#/components/schemas/Reservation'
+          nullable: true
+          readOnly: true
+          type: array
+      type: object
+    MeetingRoomType:
+      enum:
+      - 0
+      - 1
+      - 2
+      format: int32
+      type: integer
+    ProblemDetails:
+      additionalProperties: {}
+      properties:
+        type:
+          nullable: true
+          type: string
+        title:
+          nullable: true
+          type: string
+        status:
+          format: int32
+          nullable: true
+          type: integer
+        detail:
+          nullable: true
+          type: string
+        instance:
+          nullable: true
+          type: string
+      type: object
+    Reservation:
+      additionalProperties: false
+      example:
+        prijsPerUur: 7.061401241503109
+        meetingRoom:
+          prijsPerUur: 1.4894159098541704
+          vergaderruimteType: null
+          id: 1
+          prijsPerPersoonStandaardCatering: 6.84685269835264
+          naam: naam
+          maximumAantalPersonen: 1
+          reservaties:
+          - null
+          - null
+        aantalPersonen: 1
+        duurInUren: 5
+        prijsPerPersoonCatering: 3.616076749251911
+        tot: 2
+        catering:
+          beschrijving: beschrijving
+          titel: titel
+          prijsPerPersoon: 6.027456183070403
+          id: 0
+        discount:
+          percentage: 4
+          id: 2
+          minimumReservationsInAYear: 7
+        id: 6
+        dag: 2000-01-23T04:56:07.000+00:00
+        prijsPerPersoonStandaardCatering: 9.301444243932576
+        beginUur: 5
+      properties:
+        id:
+          format: int32
+          type: integer
+        aantalPersonen:
+          format: int32
+          type: integer
+        dag:
+          format: date-time
+          type: string
+        beginUur:
+          format: int32
+          type: integer
+        duurInUren:
+          format: int32
+          type: integer
+        tot:
+          format: int32
+          readOnly: true
+          type: integer
+        prijsPerUur:
+          format: double
+          type: number
+        prijsPerPersoonStandaardCatering:
+          format: double
+          type: number
+        prijsPerPersoonCatering:
+          format: double
+          type: number
+        catering:
+          $ref: '#/components/schemas/Catering'
+        discount:
+          $ref: '#/components/schemas/Discount'
+        meetingRoom:
+          $ref: '#/components/schemas/MeetingRoom'
+      type: object

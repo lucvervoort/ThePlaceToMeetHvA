@@ -41,26 +41,26 @@ namespace ThePlaceToMeet.Infrastructure
                 _dbContext.Caterings.AddRange(caterings);
                 _dbContext.SaveChanges();
 
-                Contracts.DTO.Discount korting1 = new () { MinimumAantalReservatiesInJaar = 3, Percentage = 5 };
-                Contracts.DTO.Discount korting2 = new () { MinimumAantalReservatiesInJaar = 10, Percentage = 10 };
+                Contracts.DTO.Discount korting1 = new () { MinimumReservationsInAYear = 3, Percentage = 5 };
+                Contracts.DTO.Discount korting2 = new () { MinimumReservationsInAYear = 10, Percentage = 10 };
                 _dbContext.Kortingen.AddRange(new Contracts.DTO.Discount[] { korting1, korting2 });
                 _dbContext.SaveChanges();
 
-                Contracts.DTO.Customer peter = new () { Naam = "Claeyssens", Voornaam = "Peter", Email = "peter@hogent.be", Bedrijf = "HoGent" };
+                Contracts.DTO.Customer peter = new () { LastName = "Claeyssens", FirstName = "Peter", Email = "peter@hogent.be", Company = "HoGent" };
                 _dbContext.Klanten.Add(peter);
-                Contracts.DTO.Customer jan = new () { Naam = "Peeters", Voornaam = "Jan", Email = "jan@gmail.com", Bedrijf = "HoGent" };
+                Contracts.DTO.Customer jan = new () { LastName = "Peeters", FirstName = "Jan", Email = "jan@gmail.com", Company = "HoGent" };
                 _dbContext.Klanten.Add(jan);
                 _dbContext.SaveChanges();
 
                 Contracts.DTO.MeetingRoom ruimte = _dbContext.Vergaderruimtes.SingleOrDefault(t => t.Id == 1);
                 Contracts.DTO.Reservation res = new () { Dag = DateTime.Today.AddDays(10), BeginUur = 8, DuurInUren = 5, AantalPersonen = 10, Catering = cateringBroodjes, PrijsPerPersoonCatering = 10, PrijsPerUur = 10 };
-                peter.Reservaties.Add(res);
+                peter.Reservations.Add(res);
                 ruimte.Reservaties.Add(res);
                 res = new Contracts.DTO.Reservation() { Dag = DateTime.Today.AddDays(10), BeginUur = 14, DuurInUren = 4, AantalPersonen = 10, PrijsPerPersoonCatering = 10, PrijsPerUur = 10 };
-                peter.Reservaties.Add(res);
+                peter.Reservations.Add(res);
                 ruimte.Reservaties.Add(res);
                 res = new Contracts.DTO.Reservation() { Dag = DateTime.Today.AddDays(8), BeginUur = 9, DuurInUren = 4, AantalPersonen = 10, PrijsPerPersoonCatering = 12, PrijsPerUur = 10 };
-                jan.Reservaties.Add(res);
+                jan.Reservations.Add(res);
                 ruimte.Reservaties.Add(res);
                 _dbContext.SaveChanges();
             }

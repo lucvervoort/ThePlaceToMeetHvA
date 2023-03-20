@@ -7,7 +7,7 @@ namespace ThePlaceToMeet.Web.App.AutoMapper
         public KlantProfile()
         {
             // .MaxDepth(2) cannot be used
-            CreateMap<Domain.Customer, Contracts.DTO.Customer>().ForMember(dest => dest.Reservaties, act => act.Ignore());
+            CreateMap<Domain.Customer, Contracts.DTO.Customer>().ForMember(dest => dest.Reservations, act => act.Ignore());
             CreateMap<Contracts.DTO.Customer, Domain.Customer>().ForMember(dest => dest.Reservaties, act => act.Ignore());
         }
     }

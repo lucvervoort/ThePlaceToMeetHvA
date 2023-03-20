@@ -1,19 +1,22 @@
 ﻿namespace ThePlaceToMeet.Contracts.DTO
 {
-    public partial class MeetingRoom
+    public class MeetingRoom
     {
+        #region Properties
         public int Id { get; set; }
-
         public string? Naam { get; set; }
-
         public MeetingRoomType VergaderruimteType { get; set; }
-
         public int MaximumAantalPersonen { get; set; }
+        public decimal PrijsPerUur { get; set; } //prijs voor huur vergaderruimte per uur
+        public decimal PrijsPerPersoonStandaardCatering { get; set; } //prijs voor de standaardcatering (koffie, thee, water) per persoon
+        public List<Reservation> Reservaties { get; private set; }
+        #endregion
 
-        public decimal PrijsPerUur { get; set; }
-
-        public decimal PrijsPerPersoonStandaardCatering { get; set; }
-
-        public virtual ICollection<Reservation> Reservaties { get; } = new List<Reservation>();
+        #region Constructors and methods
+        public MeetingRoom()
+        {
+            Reservaties = new List<Reservation>();
+        }
+        #endregion
     }
 }
