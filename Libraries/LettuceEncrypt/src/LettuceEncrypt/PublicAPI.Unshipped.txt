@@ -1,3 +1,0 @@
-#nullable enable
-LettuceEncrypt.LettuceEncryptOptions.AdditionalIssuers.get -> string![]!
-LettuceEncrypt.LettuceEncryptOptions.AdditionalIssuers.set -> void
