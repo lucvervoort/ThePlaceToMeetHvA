@@ -7,7 +7,7 @@ import { ApiClient, CustomerApi } from "./generated/javascript/src/index";
 import * as signalR from "@microsoft/signalr";
 
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:7045/chathub")
+    .withUrl("https://10.10.10.10:7045/chathub")
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
@@ -39,7 +39,7 @@ function App() {
     const getCustomerData = async () => {
         /*
         const response = await fetch(
-            "http://localhost:5204/Klant/"
+            "http://10.10.10.10:5204/Klant/"
         ).then((response) => response.json());
         setCustomers(response);
         */
@@ -67,9 +67,9 @@ function App() {
         );
         */
 
-        var client = new ApiClient(/*"https://localhost:7045"*/"http://localhost:5204");
+        var client = new ApiClient(/*"https://10.10.10.10:7045"*/"http://10.10.10.10:5204");
         client.defaultHeaders = {
-            'Access-Control-Allow-Origin': 'http://localhost:3000' // 'https://localhost:3000'
+            'Access-Control-Allow-Origin': 'http://10.10.10.10:3000' // 'https://10.10.10.10:3000'
            //'User-Agent': 'OpenAPI-Generator/1.0/Javascript'
         };
         console.log(client.defaultHeaders);
