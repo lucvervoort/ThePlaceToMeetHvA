@@ -6,6 +6,7 @@ import './App.css';
 import { ApiClient, CustomerApi } from "./generated/javascript/src/index";
 import * as signalR from "@microsoft/signalr";
 
+/*
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("https://10.10.10.10:7045/chathub")
     .configureLogging(signalR.LogLevel.Information)
@@ -28,6 +29,7 @@ connection.on("ProcessChatMessage", (user, message) => {
 connection.onclose(async () => {
     await start();
 });
+*/
 
 function App() {
     // Start the connection.
@@ -39,7 +41,7 @@ function App() {
     const getCustomerData = async () => {
         /*
         const response = await fetch(
-            "http://10.10.10.10:5204/Klant/"
+            "https://10.10.10.10:7045/Klant/"
         ).then((response) => response.json());
         setCustomers(response);
         */

@@ -133,13 +133,13 @@ namespace ThePlaceToMeet.WebApi
                             builder.WithOrigins(origins);
                         else
                         */
-                            builder.AllowAnyOrigin()
+                        builder.AllowAnyOrigin()
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                       //.WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
-                       //.WithHeaders("authorization", "accept", "content-type", "origin")
-                       //.AllowCredentials()
-                       .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
+                        .AllowAnyMethod();
+                        //.WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS");
+                        //.WithHeaders("authorization", "accept", "content-type", "origin")
+                        //.AllowCredentials()
+                        //.SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
                     });
                 });
             }
@@ -218,8 +218,8 @@ namespace ThePlaceToMeet.WebApi
                 app.UseHsts(); // https
             }
 
-            app.Logger.LogInformation("Setting up headers...");
-            UseHeadersMiddleware(app);
+            //app.Logger.LogInformation("Setting up headers...");
+            //UseHeadersMiddleware(app);
 
             // to check header locally, use PowerShell command:
             // (invoke-webrequest https://localhost:7045/MeetingRoom).headers
@@ -227,7 +227,7 @@ namespace ThePlaceToMeet.WebApi
             app.UseSerilogRequestLogging();
 
             app.Logger.LogInformation("Using HTTPS redirection...");
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
 
             /*
